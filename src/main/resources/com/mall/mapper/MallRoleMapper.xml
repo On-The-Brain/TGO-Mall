@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mall.mapper.MallRoleMapper">
+
+    <resultMap type="com.mall.entity.MallRole" id="MallRoleMap">
+        <result property="mallRoleId" column="mall_role_id" jdbcType="INTEGER"/>
+        <result property="mallRoleName" column="mall_role_name" jdbcType="VARCHAR"/>
+        <result property="mallRoleDescription" column="mall_role_description" jdbcType="VARCHAR"/>
+        <collection property="mallPermissionList"
+                    select="com.mall.mapper.MallPermissionMapper.queryByRoleId"
+                    column="mall_role_id"/>
+    </resultMap>
+
+    <!--通过用户id查询角色-->
+    <select id="queryRolesByUserId" resultMap="MallRoleMap">
+        select *
+        from mall_role
+                 join mall_user_role mur on mall_role.mall_role_id = mur.mall_role_id
+        where mall_user_id = #{mallUserId}
+    </select>
+    <!--通过用户id查询角色-->
+    <select id="queryAllRolesByUserId" resultMap="MallRoleMap">
+        select *
+        from mall_role
+                 join mall_user_role mur on mall_role.mall_role_id = mur.mall_role_id
+        where mall_user_id = #{mallUserId}
+    </select>
+    <!-- 查询所有管理员角色 -->
+    <select id="queryAllAdminRole" resultMap="MallRoleMap">
+        select mall_role_id, mall_role_name, mall_role_description
+        from mall_role
+        where mall_role_name = '%' + 'Admin' + '%'
+    </select>
+    <!-- 查询所有角色 -->
+    <select id="queryAllRole" resultMap="MallRoleMap">
+        select mall_role_id, mall_role_name, mall_role_description
+        from mall_role
+    </select>
+    <!-- 根据用户名查询角色id -->
+    <select id="getRolesByUserName" resultMap="com.mall.mapper.MallRoleMapper.MallRoleMap">
+        select mr.*
+        from mall_user_role
+                 join mall_user mu on mall_user_role.mall_user_id = mu.mall_user_id
+                 join mall_role mr on mall_user_role.mall_role_id = mr.mall_role_id
+        where mall_username = #{mallUsername}
+    </select>
+
+    <insert id="insertRolePermission">
+        insert into mall_role_permission (mall_role_id, mall_permission_id) VALUES
+        <foreach collection="list" index="inx" separator=",">
+            (#{mallRoleId}, #{list[${inx}]})
+        </foreach>
+    </insert>
+
+    <insert id="insertUserAndRole">
+        insert into mall_user_role (mall_user_id, mall_role_id)
+        VALUES (#{userId}, #{roleId})
+    </insert>
+
+    <delete id="deletePermissionByRoleId">
+        delete
+        from mall_role_permission
+        where mall_role_id = #{mallRoleId}
+    </delete>
+
+    <delete id="deleteByMallByRp">
+        delete from mall_role_permission where mall_role_id=#{roleId}
+        and mall_permission_id in
+        <foreach collection="list" open="(" close=")" separator="," item="id">
+            #{id}
+        </foreach>
+    </delete>
+
+
+</mapper>
+

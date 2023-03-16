@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mall.mapper.MallProductMapper">
+
+    <resultMap type="com.mall.entity.MallProduct" id="MallProductMap">
+        <result property="mallProductId" column="mall_product_id" jdbcType="VARCHAR"/>
+        <result property="productParallelism" column="product_parallelism" jdbcType="VARCHAR"/>
+        <result property="mallProductTitle" column="mall_product_title" jdbcType="VARCHAR"/>
+        <result property="mallCategoryId" column="mall_category_Id" jdbcType="INTEGER"/>
+        <result property="mallProductPrice" column="mall_product_price" jdbcType="NUMERIC"/>
+        <result property="mallProductNum" column="mall_product_num" jdbcType="INTEGER"/>
+        <result property="mallProductCreatedTime" column="mall_product_created_time" jdbcType="TIMESTAMP"/>
+        <result property="mallProductState" column="mall_product_state" jdbcType="INTEGER"/>
+        <result property="mallProductSort" column="mall_product_sort" jdbcType="INTEGER"/>
+        <result property="mallNatureOfGoods" column="mall_natureOfGoods" jdbcType="VARCHAR"/>
+        <result property="mallDiscount" column="mall_discount" jdbcType="VARCHAR"/>
+        <collection property="productImgList"
+                    ofType="com.mall.entity.MallProductImg">
+            <id property="productImgId" column="product_img_id"/>
+            <result property="productImgPath" column="product_img_path"/>
+            <result property="productParallelism" column="product_parallelism"/>
+        </collection>
+
+    </resultMap>
+
+
+    <select id="selectProduct" resultMap="MallProductMap">
+        SELECT *
+        FROM mall_product
+                 join mall_product_img mpi on mall_product.product_parallelism = mpi.product_parallelism
+            ${ew.customSqlSegment}
+    </select>
+    <select id="selectProductOne" resultMap="MallProductMap">
+        SELECT *
+        FROM mall_product
+                 join mall_product_img mpi on mall_product.product_parallelism = mpi.product_parallelism
+            ${ew.customSqlSegment}
+    </select>
+
+    <!-- 批量插入 -->
+    <insert id="insertBatch" keyProperty="mallProductId" useGeneratedKeys="true">
+        insert into shoppingmall.mall_product(product_parallelism, mall_product_title, mall_category_Id,
+        mall_product_price, mall_product_num, mall_product_created_time, mall_product_state, mall_product_sort,
+        mall_natureOfGoods, mall_discount)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.productParallelism}, #{entity.mallProductTitle}, #{entity.mallCategoryId},
+            #{entity.mallProductPrice}, #{entity.mallProductNum}, #{entity.mallProductCreatedTime},
+            #{entity.mallProductState}, #{entity.mallProductSort}, #{entity.mallNatureofgoods}, #{entity.mallDiscount})
+        </foreach>
+    </insert>
+    <!-- 批量插入或按主键更新 -->
+    <insert id="insertOrUpdateBatch" keyProperty="mallProductId" useGeneratedKeys="true">
+        insert into shoppingmall.mall_product(product_parallelism, mall_product_title, mall_category_Id,
+        mall_product_price, mall_product_num, mall_product_created_time, mall_product_state, mall_product_sort,
+        mall_natureOfGoods, mall_discount)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.productParallelism}, #{entity.mallProductTitle}, #{entity.mallCategoryId},
+            #{entity.mallProductPrice}, #{entity.mallProductNum}, #{entity.mallProductCreatedTime},
+            #{entity.mallProductState}, #{entity.mallProductSort}, #{entity.mallNatureofgoods}, #{entity.mallDiscount})
+        </foreach>
+        on duplicate key update
+        product_parallelism = values(product_parallelism) , mall_product_title = values(mall_product_title) ,
+        mall_category_Id = values(mall_category_Id) , mall_product_price = values(mall_product_price) , mall_product_num
+        = values(mall_product_num) , mall_product_created_time = values(mall_product_created_time) , mall_product_state
+        = values(mall_product_state) , mall_product_sort = values(mall_product_sort) , mall_natureOfGoods =
+        values(mall_natureOfGoods) , mall_discount = values(mall_discount)
+    </insert>
+
+</mapper>
+

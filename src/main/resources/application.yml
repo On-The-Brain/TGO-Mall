@@ -1,0 +1,29 @@
+server:
+  # 应用服务 WEB 访问端口
+  port: 8080
+spring:
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+  main:
+    allow-bean-definition-overriding: true
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: 123456
+    url: jdbc:mysql://localhost:3306/shoppingmall
+  thymeleaf:
+    cache: false
+    prefix: classpath:/templates/
+    encoding: UTF-8 #编码
+    suffix: .html #模板后缀
+    mode: HTML #模板
+mybatis-plus:
+  global-config:
+    db-config:
+      table-prefix: mall_        #设置表名通用前缀
+      id-type: auto                #设置主键id字段的生成策略为参照数据库设定的策略，当前数据库设置id生成策略为自增
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  mapper-locations: classpath*:com/mall/mapper/*.xml

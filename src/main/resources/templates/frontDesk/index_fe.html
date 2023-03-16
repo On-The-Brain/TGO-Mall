@@ -1,0 +1,446 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="Generator" content="EditPlus®">
+    <meta name="Author" content="">
+    <meta name="Keywords" content="">
+    <meta name="Description" content="">
+    <meta http-equiv="X-UA-Compatible" content="IE=9; IE=8; IE=7; IE=EDGE">
+    <meta name="renderer" content="webkit">
+    <title>歪秀购物</title>
+    <base th:href="@{/}">
+    <style>
+        #mallProductList li{
+            cursor:pointer;
+        }
+    </style>
+    <link rel="shortcut icon" type="image/x-icon" href="/theme/icon/favicon.ico">
+    <link rel="stylesheet" type="text/css" href="/theme/css/base.css">
+    <link rel="stylesheet" type="text/css" href="/theme/css/home.css">
+    <link href="/resources/js/plugins/layer/mobile/need/layer.css" rel="stylesheet">
+    <script type="text/javascript" src="/theme/js/jquery.js"></script>
+    <script type="text/javascript" src="/theme/js/index.js"></script>
+    <script type="text/javascript" src="/theme/js/js-tab.js"></script>
+    <script type="text/javascript" src="/theme/js/MSClass.js"></script>
+    <script type="text/javascript" src="/theme/js/jcarousellite.js"></script>
+    <script type="text/javascript" src="/theme/js/top.js"></script>
+    <script src="/resources/js/axios.min.js"></script>
+    <script src="/resources/js/plugins/layer/layer.js"></script>
+    <script type="text/javascript">
+        var intDiff = parseInt(80000);//倒计时总秒数量
+        function timer(intDiff) {
+            window.setInterval(function () {
+                var day = 0,
+                        hour = 0,
+                        minute = 0,
+                        second = 0;//时间默认值
+                if (intDiff > 0) {
+                    day = Math.floor(intDiff / (60 * 60 * 24));
+                    hour = Math.floor(intDiff / (60 * 60)) - (day * 24);
+                    minute = Math.floor(intDiff / 60) - (day * 24 * 60) - (hour * 60);
+                    second = Math.floor(intDiff) - (day * 24 * 60 * 60) - (hour * 60 * 60) - (minute * 60);
+                }
+                if (minute <= 9) minute = '0' + minute;
+                if (second <= 9) second = '0' + second;
+
+                $('#hour_show').html('<s id="h"></s>' + hour + '');
+                $('#minute_show').html('<s></s>' + minute + '');
+                $('#second_show').html('<s></s>' + second + '');
+                intDiff--;
+            }, 1000);
+        }
+
+        $(function () {
+            timer(intDiff);
+        });
+    </script>
+</head>
+<body>
+
+
+<div>
+    <div id="moquu_wxin" class="moquu_wxin"><a href="javascript:void(0)">
+        <div class="moquu_wxinh"></div>
+    </a></div>
+    <div id="moquu_wshare" class="moquu_wshare"><a href="javascript:void(0)" style="text-indent:0">
+        <div class="moquu_wshareh"><img src="/theme/icon/moquu_wshare.png" width="100%"></div>
+    </a></div>
+    <div id="moquu_wmaps"><a href="javascript:void(0)" class='moquu_wmaps'></a></div>
+    <a id="moquu_top" href="javascript:void(0)"></a>
+</div>
+
+<!--- header begin-->
+<header id="pc-header">
+    <div class="BHeader">
+        <div class="yNavIndex">
+            <ul class="BHeaderl">
+                <li style="display:none;"><a href="#" style="float:left;">嘻哈杂货铺</a> <a href="#"
+                                                                                            style="float:left;">退出</a>
+                </li>
+                <li><a href="login.html" style="color:#ea4949;">请登录</a></li>
+                <li class="headerul">|</li>
+                <li><a href="register.html">免费注册</a></li>
+                <li class="headerul">|</li>
+                <li><a href="my-d.html">订单查询</a></li>
+                <li class="headerul">|</li>
+                <li><a href="my-s.html">我的收藏</a></li>
+                <li class="headerul">|</li>
+                <li id="pc-nav" class="menu"><a href="my-user.html" class="tit">我的商城</a>
+                    <div class="subnav">
+                        <a href="my-d.html">我的订单</a>
+                        <a href="my-s.html">我的收藏</a>
+                        <a href="my-user.html">账户安全</a>
+                        <a href="my-add.html">地址管理</a>
+                        <a href="my-p.html">我要评价</a>
+                    </div>
+                </li>
+                <li class="headerul">|</li>
+                <li id="pc-nav1" class="menu"><a href="#" class="tit M-iphone">手机悦商城</a>
+                    <div class="subnav">
+                        <a href="#"><img src="/theme/icon/ewm.png" width="115" height="115" title="扫一扫，有惊喜！"></a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="container clearfix">
+        <div class="header-logo fl"><h1><a href="首页.html"><img src="/theme/icon/logo.png"></a></h1></div>
+        <div class="head-form fl">
+            <form class="clearfix">
+                <input type="text" class="search-text" accesskey="" id="key" autocomplete="off" placeholder="洗衣机">
+                <button class="button" onClick="search('key');return false;">搜索</button>
+            </form>
+            <div class="words-text clearfix">
+                <a href="#" class="red">1元秒爆</a>
+                <a href="#">低至五折</a>
+                <a href="#">农用物资</a>
+                <a href="#">买一赠一</a>
+                <a href="#">佳能相机</a>
+                <a href="#">稻香村月饼</a>
+                <a href="#">服装城</a>
+            </div>
+        </div>
+        <div class="header-cart fr"><a href="#"><img src="/theme/icon/car.png"></a> <i class="head-amount">99</i></div>
+        <div class="head-mountain"></div>
+    </div>
+    <div class="yHeader">
+
+    </div>
+</header>
+<!-- header End -->
+
+<!--- banner begin-->
+<section id="pc-banner">
+    <div class="yBanner">
+        <div class="banner" id="banner">
+            <a href="javascript:;" class="d1"
+               style="background:url(/theme/img/ad/banner1.jpg) center no-repeat;background-color: #f01a38; padding-left:180px;"></a>
+            <a href="javascript:;" class="d1"
+               style="background:url(/theme/img/ad/banner2.jpg) center no-repeat;background-color: #a96ae3; padding-left:180px;"></a>
+            <a href="javascript:;" class="d1"
+               style="background:url(/theme/img/ad/banner3.jpg) center no-repeat;background-color: #081f3c; padding-left:180px;"></a>
+            <a href="javascript:;" class="d1"
+               style="background:url(/theme/img/ad/banner4.jpg) center no-repeat;background-color: #4684ff; padding-left:180px;"></a>
+            <a href="javascript:;" class="d1"
+               style="background:url(/theme/img/ad/banner5.jpg) center no-repeat;background-color: #a89d9f; padding-left:180px;"></a>
+            <div class="d2" id="banner_id">
+                <ul>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                </ul>
+            </div>
+        </div>
+        <div style="text-align:center;clear:both"></div>
+    </div>
+</section>
+<!-- banner End -->
+
+
+<!--- 广告开始-->
+<section id="pc-advert">
+    <div class="container-c clearfix">
+        <a href="page.html" target="_blank">
+            <img src="/theme/img/pd/pd1.png">
+        </a>
+        <a href="page.html" target="_blank">
+            <img src="/theme/img/pd/pd2.png">
+        </a>
+        <a href="page.html" target="_blank">
+            <img src="/theme/img/pd/pd3.png">
+        </a>
+        <a href="page.html" target="_blank">
+            <img src="/theme/img/pd/pd4.png">
+        </a>
+    </div>
+</section>
+<!-- advert End -->
+
+<!-- 商城资讯 begin -->
+<section id="pc-information">
+    <div class="containers">
+        <div class="pc-info-mess  clearfix" style="position: relative;">
+            <h2 class="fl" style="margin-right:20px;">商城快讯</h2>
+            <div id="MarqueeDiv" class="MarqueeDiv">
+                <a href="new.html">[特惠]新一代Moto 360智能手表登陆</a>
+                <a href="new.html">[特惠]洗护节 跨品牌满199减100</a>
+                <a href="new.html">[特惠]仁怀政府开启“仁怀酱香酒馆”</a>
+                <a href="new.html">[特惠]洗护节 跨品牌满199减100</a>
+                <a href="new.html">逛商城赚话费，商城通信51城全线抢购 </a>
+                <a href="new.html">文艺蓝牙音箱 火热众筹中 </a>
+                <a href="new.html">[公告]第1000家商城帮服务店落户遵义</a>
+                <a href="new.html">[特惠]新一代Moto 360智能手表登陆</a>
+                <a href="new.html">[特惠]新一代Moto 360智能手表登陆</a>
+                <a href="new.html">[特惠]新一代Moto 360智能手表登陆</a>
+            </div>
+            <a href="new.html" style="position: absolute;right: 15px;top: 0;"> 更多资讯</a>
+        </div>
+    </div>
+</section>
+<!-- 商城资讯 End -->
+
+<!-- 限时抢购 begin -->
+<div class="time-lists clearfix">
+    <div class="time-list fl">
+        <div class="time-title">
+            <h2>限时抢购</h2>
+            <div class="time-item clearfix fl" style="padding-left:10px;">
+                <strong id="hour_show">00</strong>
+                <strong class="pc-clear-sr">:</strong>
+                <strong id="minute_show">00</strong>
+                <strong class="pc-clear-sr">:</strong>
+                <strong id="second_show">00</strong>
+            </div><!--倒计时模块-->
+            <a href="sale-begin.html" class="fr">更多抢购商品</a>
+        </div>
+        <div class="time-border">
+            <div class="yScrollList">
+                <div class="yScrollListIn">
+                    <a class="yScrollListbtn yScrollListbtnl" id="prev-01"></a>
+                    <div class="yScrollListInList yScrollListInList1 jCarouselLite"
+                         style="display:block;margin-left: 20px;" id="demo-01">
+                        <ul>
+                            <li th:each="item:${mallProductVos}">
+                                <a href="">
+                                    <img th:src="'/images/'+${item.getProductImgList().get(0).getProductImgPath()}">
+                                    <p class="head-name" th:text="${item.getMallProductTitle()}"></p>
+                                    <p><span class="price"
+                                             th:value="${ #numbers.formatDecimal(item.getMallProductPrice()*item.getMallDiscount(),1,'COMMA',2,'POINT')}"
+                                             th:text="${#numbers.formatCurrency(item.getMallProductPrice()*item.getMallDiscount())}">￥138.00</span><span
+                                            class="discount" th:text="${item.getMallProductPrice()}">&yen;</span></p>
+                                    <p class="label-default" th:text="${item.getMallDiscount()*10}+'折'"></p>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <a class="yScrollListbtn yScrollListbtnr" id="next-01"></a>
+
+                    <!-- 卖场推荐-->
+                    <div class="container-c time-lists clearfix">
+                        <div class="time-list fl">
+                            <div class="time-title time-clear">
+                                <h2>卖场推荐</h2>
+                                <a href="javascript:;" onclick="storeRecommendation()" class="pc-spin fr">换一换</a>
+                            </div>
+                            <div id="storeRecommendation" class="time-poued clearfix">
+
+                            </div>
+                        </div>
+                        <div class="news-list fr">
+                            <div class="time-title time-clear"><h2>今日值得购买</h2></div>
+                            <div class="news-right"><a href="#"><img src="theme/img/ad/a1.png"></a></div>
+                        </div>
+                    </div>
+
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!---侧边快讯--->
+    <div class="news-list fr">
+        <div class="time-title time-clear"><h2>商城快讯</h2><a href="#" class="fr"> 更多资讯</a></div>
+        <div class="time-border" style="border-left:none;">
+            <ul class="news">
+                <li><a href="#">[特惠]洗护节 跨品牌满199减100</a></li>
+                <li><a href="#">[特惠]新一代Moto 360智能手表登陆</a></li>
+                <li><a href="#">[特惠]惠氏品牌日 两件立享85折</a></li>
+                <li><a href="#">[特惠]洗护节 跨品牌满199减100</a></li>
+                <li><a href="#">[特惠]仁怀政府开启“仁怀酱香酒馆”</a></li>
+            </ul>
+            <div class="time-poduse"><img src="/theme/img/pd/pj1.png"></div>
+        </div>
+    </div>
+    <div class="news-list fr">
+        <div class="time-title time-clear"><h2>商城快讯</h2><a href="#" class="fr"> 更多资讯</a></div>
+        <div class="time-border" style="border-left:none;">
+            <ul class="news">
+                <li><a href="#">[特惠]洗护节 跨品牌满199减100</a></li>
+                <li><a href="#">[特惠]新一代Moto 360智能手表登陆</a></li>
+                <li><a href="#">[特惠]惠氏品牌日 两件立享85折</a></li>
+                <li><a href="#">[特惠]洗护节 跨品牌满199减100</a></li>
+                <li><a href="#">[特惠]仁怀政府开启“仁怀酱香酒馆”</a></li>
+            </ul>
+            <div class="time-poduse"><img src="/theme/img/pd/pj1.png"></div>
+        </div>
+    </div>
+
+    <!--热卖区-->
+    <div class="time-lists clearfix">
+        <div class="time-list time-list-w fl">
+            <div class="time-title time-clear"><h2>热卖区</h2>
+                <div class="pc-font fl"></div>
+                <a class="pc-spin fr" href="javascript:;" onclick="hotProduct()">换一换</a></div>
+            <div class="time-border">
+                <div class="yScrollList">
+                    <div class="yScrollListIn">
+                        <div style="display:block;" class="yScrollListInList yScrollListInList1">
+                            <ul id="bestSeller">
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="containers main-banner">
+        <a href="#">
+            <img src="/theme/img/ad/br1.jpg" width="1200" height="105">
+        </a>
+    </div>
+
+    <div class="time-border-list pc-search-list clearfix">
+        <ul class="clearfix" id="mallProductList">
+        </ul>
+        <div class="clearfix">
+            <div class="fr pc-search-g">
+                <a class="fl pc-search-f" href="#">上一页</a>
+                <a href="#" class="current">1</a>
+                <a href="javascript:;">2</a>
+                <a href="javascript:;">3</a>
+                <a href="javascript:;">4</a>
+                <a href="javascript:;">5</a>
+                <a href="javascript:;">6</a>
+                <a href="javascript:;">7</a>
+                <span class="pc-search-di">…</span>
+                <a title="使用方向键右键也可翻到下一页哦！" class="pc-search-n" href="javascript:;"
+                   onclick="SEARCH.page(3, true)">下一页</a>
+                <span class="pc-search-y">
+                        <em>  共20页    到第</em>
+                        <input type="text" class="pc-search-j" placeholder="1">
+                        <em>页</em>
+                        <a href="#" class="confirm">确定</a>
+                    </span>
+            </div>
+        </div>
+    </div>
+
+</div>
+<!-- 限时抢购 End -->
+<script type="text/javascript">banner()</script>
+<script>
+    hotProduct()
+    storeRecommendation()
+
+    // 卖场推荐
+    function storeRecommendation() {
+        axios({
+            url: '[[@{/mallProduct/message/1}]]',
+            method: "get",
+            // contentType: 'application/json',
+        }).then(function (response) {
+            var res = response.data.data;
+            $("#storeRecommendation a").remove();
+            for (let i = 0; i < res.length; i++) {
+                var str = '<a href="#">' +
+                        ' <img style="background-color: white; width: 224px;height: 223px;"' +
+                        ' src="/images/' + res[i].productImgList[0].productImgPath + '">' +
+                        ' </a>'
+                $("#storeRecommendation").append(str)
+            }
+        }).catch(function (error) {
+            layer.msg("网络不太好")
+            console.log(error);
+        }).finally((response, error) => {
+
+        });
+    }
+
+    // 热卖商品
+    function hotProduct() {
+        axios({
+            url: '[[@{/mallProduct/message/2}]]',
+            method: "get",
+            // contentType: 'application/json',
+        }).then(function (response) {
+            var res = response.data.data;
+            console.log(res)
+            $("#bestSeller li").remove();
+            for (let i = 0; i < res.length; i++) {
+                var str = '<li>' +
+                        '<a href="">' +
+                        '<img src="/images/' + res[i].productImgList[0].productImgPath + '">' +
+                        '<p  class="head-name pc-pa10 bestSellerTitle">' +
+                        '</p>' +
+                        '<p class="label-default">' + res[i].mallDiscount + '折</p>' +
+                        '</a>' +
+                        '</li>'
+                $("#bestSeller").append(str)
+                $(".bestSellerTitle").text(response.data.data[i].mallProductTitle)
+            }
+        }).catch(function (error) {
+            layer.msg("网络不太好")
+            console.log(error);
+        }).finally((response, error) => {
+
+        });
+    }
+
+    $(document).ready(function (e) {
+        //当滚动条的位置处于距顶部100像素以下时，出现，否则消失
+        $(function () {
+            $(window).scroll(function () {
+                if ($(window).scrollTop() + 100 > $(".main-banner").offset().top) {
+
+                } else {
+                }
+
+            })
+        })
+    })
+    mallProductList(2)
+
+    // 根据用户推荐推荐
+    function mallProductList(pageNum) {
+        axios({
+            url: '[[@{/mallProduct/messages/}]]' + pageNum,
+            method: "get",
+        }).then(function (response) {
+            var res = response.data.data;
+            console.log(res)
+            for (let i = 0; i < res.length; i++) {
+                var str = ' <li style="width:230px;height: 270px;background-color: #d5d4d4">' +
+                        ' <a href=""> <img style="width:140px;height: 140px" src="/images/' + res[i].productImgList[0].productImgPath + '"></a>' +
+                        ' <p class="head-name"><a href="">' + res[i].mallProductTitle +
+                        '</a> </p>\n' +
+                        ' <p><span class="price">' + res[i].mallProductPrice + '</span></p>\n' +
+                        ' <p class="head-futi clearfix"><span class="fl">好评度：90% </span> <span class="fr">100人购买</span></p>\n' +
+                        ' <p class="clearfix"><span class="label-default fl">抢购</span> <a href="#" class="fr pc-search-c">加购</a> </p>\n' +
+                        ' </li>'
+                $("#mallProductList").append(str)
+            }
+
+        }).catch(function (error) {
+            layer.msg("网络不太好")
+            console.log(error);
+        }).finally((response, error) => {
+
+        });
+    }
+</script>
+</body>
+</html>

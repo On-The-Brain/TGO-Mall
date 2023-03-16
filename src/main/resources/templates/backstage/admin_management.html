@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="renderer" content="webkit">
+    <title>role</title>
+    <base th:href="@{/}">
+    <meta name="keywords" content="H+后台主题,后台bootstrap框架,会员中心主题,后台HTML,响应式后台">
+    <meta name="description"
+          content="H+是一个完全响应式，基于Bootstrap3最新版本开发的扁平化主题，她采用了主流的左右两栏式布局，使用了Html5+CSS3等现代技术">
+    <!--bootstrap-table-->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css">
+    <link href="/resources/js/plugins/layer/mobile/need/layer.css" rel="stylesheet">
+    <link href="/resources/css/bootstrap-4.2.1.min.css" rel="stylesheet">
+    <link href="/resources/css/bootstrap-table.min.css" rel="stylesheet">
+    <!--页面样式-->
+    <link href="/resources/font-awesome/css/font-awesome.css" rel="stylesheet">
+    <link href="/resources/font-awesome/css/iconfont.css" rel="stylesheet">
+    <link href="/resources/css/style.css?v=2.2.0" rel="stylesheet">
+</head>
+<style>
+    /*body {*/
+    /*    !*overflow:-Scroll;*!*/
+    /*    overflow-y: hidden*/
+    /*}*/
+</style>
+<body>
+<!-- 添加的模态窗口 -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content" style="width: 850px;height: 340px">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">创建新权限</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <ul class="list-group">
+                <li class="list-group-item list-group-item-success">添加权限请以[permission:]开头，系统会自动生成</li>
+            </ul>
+            <div class="modal-body">
+
+                <form id="exampleModal-form">
+                    <div class="input-group">
+                        <div style="width:200px;color: white" class="bg-dark input-group-addon">permissionName</div>
+                        <label for="permissionName" class="col-form-label"></label>
+                        <input type="text" name="mallPermissionName" data-bv-notempty="true"
+                               data-bv-notempty-message="权限名称不能为空" class="required form-control"
+                               id="permissionName"
+                               placeholder="请输入权限名称">
+                    </div>
+
+                    <div class="input-group">
+                        <div style="width:200px;color: white" class="bg-dark  input-group-addon">permissionDescription
+                        </div>
+                        <label for="permissionDescribe" class="col-form-label"></label>
+                        <input type="text" name="mallPermissionDescription" class="required form-control"
+                               id="permissionDescribe" placeholder="权限描述">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" disabled onclick="addPermission()" id="submitAdd" class="btn btn-primary">
+                            提交
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content" style="width: 850px;height: 340px">
+            <div class="modal-header">
+                <h5 class="modal-title" id="updateModalLabel">修改权限</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <ul class="list-group">
+                <li class="list-group-item list-group-item-success">修改权限请以[permission:]开头</li>
+            </ul>
+            <div class="modal-body">
+                <form id="updateModal-form">
+                    <input type="hidden" id="mallPermissionId" name="mallPermissionId">
+                    <div class="input-group">
+                        <div style="width:200px;color: white" class="bg-dark input-group-addon">permissionName</div>
+                        <label for="permissionName" class="col-form-label"></label>
+                        <input type="text" name="mallPermissionName" data-bv-notempty="true"
+                               class="required form-control" id="updateName"
+                               placeholder="请输入权限名称">
+                    </div>
+
+                    <div class="input-group">
+                        <div style="width:200px;color: white" class="bg-dark  input-group-addon">permissionDescription
+                        </div>
+                        <label for="permissionDescribe" class="col-form-label"></label>
+                        <input type="text" id="updatePermission" name="mallPermissionDescription"
+                               class="required form-control" placeholder="权限描述">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" disabled id="submitUpdate"
+                                class="btn btn-primary">
+                            提交
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-------------------------------->
+<div id="wrapper">
+    <div id="page-wrapper" class="gray-bg dashbard-1">
+        <div class="row border-bottom">
+            <div class="row col-lg-12">
+                <div class="col-lg-12">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>管理员权限分配展示</h5>
+                            <div class="ibox-tools">
+                                <a class="collapse-link">
+                                    <i class="fa fa-chevron-up"></i>
+                                </a>
+                                <a class="close-link">
+                                    <i class="fa fa-times"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="ibox-content">
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <!--可插入--->
+                                </div>
+                            </div>
+                            <div class="table-responsive">
+                                <!--bootstrap-table自定义工具栏-->
+                                <div class="table-box" style="margin: 20px;">
+                                    <div id="toolbar">
+                                        <button onclick="open_add()" type="button" class="btn btn-success">添加权限
+                                        </button>
+                                    </div>
+                                </div>
+                                <table id="table" class="table-striped"></table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer">
+            <div class="pull-right">
+                By：<a href="http://www.zi-han.net" target="_blank">zihan's blog</a>
+            </div>
+            <div>
+                <strong>Copyright</strong> H+ &copy; 2014
+            </div>
+        </div>
+    </div>
+</div>
+<script src="/resources/js/jquery-2.1.1.min.js"></script>
+<script src="/resources/js/axios.min.js"></script>
+<#--表单验证-->
+<script src="/resources/js/plugins/validate/jquery.validate.min.js"></script>
+<script src="/resources/js/plugins/validate/validate-methods.js"></script>
+<script src="/resources/js/plugins/validate/messages_zh.min.js"></script>
+
+<script src="/resources/js/plugins/layer/layer.js"></script>
+<script src="/resources/js/plugins/dataTables/popper.min.js"></script>
+<script src="/resources/js/plugins/dataTables/bootstrap4.2.1.min.js"></script>
+<script src="/resources/js/plugins/dataTables/bootstrap-table.min.js"></script>
+
+<script>
+    // $("#table").bootstrapTable("destroy");
+    $(`#table`).bootstrapTable({
+        url: "[[@{/user/admin/Management}]]",
+        pagination: true, //获得分页功能
+        smartDisplay: true,
+        toolbar: '#toolbar',    //工具按钮用哪个容器
+        checkbox: true,
+        singleSelect: false, // 设置为true将禁止多选
+        pageNumber: 1,   // 首页页码，默认为1
+        // pageSize: 5, //默认分页数量
+        pageList: [5, 10, 15, 20], //可以选择分页的数量
+        search: true, //获得一个搜索框
+        searchOnEnterkey: false, //回车执行搜索
+        paginationLoop: true,//是否开启分页条无限循环
+        striped: true, //开启斑马线
+        sortable: true,      //是否启用排序
+        sortOrder: "asc",    //排序方式
+        clickToSelect: true, //是否启用点击选中行
+        showColumns: true, //获得一个能选择显示某些列的按钮
+        showRefresh: true, //获得一个刷新数据按钮
+        sidePagination: 'server',//服务端处理分页
+        locale: 'zh-CN',//中文支持,
+        buttonsPrefix: 'btn btn-primary',
+        queryParams: function (params) {// 上传服务器的参数
+            return {// 如果是在服务器端实现分页，limit、offset这两个参数是必须的
+                size: params.limit,
+                page: (params.offset / params.limit) + 1,
+                // 获取收缩框的内容
+                field: $(".search-input").val()
+            };
+        }, columns: [
+            {
+                checkbox: true
+            },
+            {
+                field: "mallUserId",
+                title: "用户id"
+            },
+            {
+                field: "mallUsername",
+                title: "用户名"
+            },
+            {
+                field: "mallNickName",
+                title: "用户昵称"
+            }
+            ,
+            {
+                field: "mallUserSex",
+                title: "性别"
+            },
+            {
+                field: "mallUserBirthday",
+                title: "生日"
+            },
+            {
+                field: "mallUserImages",
+                title: "头像"
+            },
+            {
+                field: "mallUserPhone",
+                title: "手机号"
+            },
+            {
+                field: "mallUserState",
+                title: "账户状态"
+            },
+            {
+                field: "mallRoleList",
+                title: "角色列表"
+            }, {
+                field: '#',
+                title: '操作',
+                align: 'center',
+                formatter: function (value, row, index) {
+                    return "<a href='javascript:;' onclick='openUpdate(\"" + index + "\")'><i style='margin-right: 20px' title='权限修改' class=\"iconfont icon-xiugai\"></i></a>" +
+                            "<a href='javascript:;' onclick='deleteInfo(\"" + index + "\")'><i style='margin-right: 10px' title='删除' class=\"iconfont icon-shanchu\"></i></a>"
+                }
+            }
+        ],
+    })
+
+
+    // 打开模态框并清楚
+    // function open_add() {
+    //     $("#exampleModal-form")[0].reset()
+    //     $("#exampleModal").modal('show')
+    //     // 清楚表单验证信息
+    //     validateAdd.resetForm()
+    // }
+    //
+    // // 修改模态框
+    // function openUpdate(index) {
+    //     $("#updateModal-form")[0].reset()
+    //     $("#updateModal").modal('show')
+    //     var mallRoll = $("#table").bootstrapTable('getData')[index];
+    //     $("#updateName").val(mallRoll.mallPermissionName)
+    //     $("#updatePermission").val(mallRoll.mallPermissionDescription)
+    //     $("#mallPermissionId").val(mallRoll.mallPermissionId)
+    //     // 清楚表单验证信息
+    //     validateUpdate.resetForm()
+    // }
+    //
+    //
+    // // 删除信息
+    // function deleteInfo(index) {
+    //     layer.prompt({
+    //         title: '请输入当前登录密码以确认身份',
+    //         formType: 1,
+    //         offset: ["200px", "670px"],//坐标
+    //     }, function (pass, inx) {
+    //         var mallPermissionId = $("#table").bootstrapTable('getData')[index].mallPermissionId
+    //         axios({
+    //             url: '[[@{/permission/permissionManagement}]]/' + mallPermissionId + "/" + pass,
+    //             method: "delete",
+    //             contentType: "json",
+    //             // params: {permissionId: mallPermissionId, password: pass},
+    //         }).then(res => {
+    //             layer.msg("成功删除" + res.data + "条数据", {
+    //                 icon: 1,
+    //                 time: 1000
+    //             }, function () {
+    //                 $('#table').bootstrapTable('refresh', {
+    //                     field: 'index',
+    //                     values: index
+    //                 });
+    //             })
+    //         }).catch(err => {
+    //             console.error()
+    //         }).finally(() => {
+    //             // console.log(response)
+    //             // console.log(error)
+    //             layer.close(inx);
+    //         });
+    //     });
+    //     console.log()
+    // }
+    //
+    // // $(document).ready(function () {
+    // //     $('#table').bootstrapTable('resetView', {height: 749});
+    // // });
+    //
+    //
+    // // 权限名称验证规则
+    // jQuery.validator.addMethod("existenceOrNot", function (value, element) {    //用jquery ajax的方法验证是不是已存在
+    //     var flag = false;
+    //     $.ajax({
+    //         type: "get",
+    //         async: false,
+    //         url: '[[@{/permission/permissionManagement}]]/' + value + "/name",
+    //         success: function (msg) {
+    //             if (msg) {
+    //                 $("#permissionName-error").remove()
+    //             }
+    //             flag = msg;
+    //         }
+    //     });
+    //     return flag;
+    // });
+    //
+    // // 权限描述验证规则
+    // jQuery.validator.addMethod("existenceOrNotAuthority", function (value, element) {    //用jquery ajax的方法验证是不是已存在
+    //     var flag = false;
+    //     $.ajax({
+    //         type: "get",
+    //         async: false,
+    //         url: '[[@{/permission/permissionManagement}]]/' + value + "/describe",
+    //         success: function (msg) {
+    //             if (msg) {
+    //                 $("#permissionDescribe-error").remove()
+    //             }
+    //             flag = msg;
+    //         }
+    //     });
+    //     return flag;
+    // });
+    // jQuery.validator.addMethod("front", function (value, element) {
+    //     return new RegExp("^permission:").test(value);
+    // }, "必须以{permission:}开头");
+    //
+    // var validateAdd = $("#exampleModal-form").validate({
+    //     rules: {  //校验规则
+    //         mallPermissionName: {
+    //             required: true,
+    //             front: true,
+    //             existenceOrNot: true
+    //         },
+    //         mallPermissionDescription: {
+    //             required: true,
+    //             existenceOrNotAuthority: true
+    //         }
+    //     },
+    //     messages: { //提示
+    //         mallPermissionName: {
+    //             required: "请输入权限名称",
+    //             existenceOrNot: "该权限已经存在"
+    //
+    //         },
+    //         mallPermissionDescription: {
+    //             required: "请输入权限描述",
+    //             existenceOrNotAuthority: "该权限描述已经存在",
+    //         }
+    //     },
+    // });
+    // var validateUpdate = $("#updateModal-form").validate({
+    //     rules: {  //校验规则
+    //         mallPermissionName: {
+    //             required: true,
+    //             front: true,
+    //             existenceOrNot: true
+    //         },
+    //         mallPermissionDescription: {
+    //             required: true,
+    //             existenceOrNotAuthority: true
+    //         }
+    //     },
+    //     messages: { //提示
+    //         mallPermissionName: {
+    //             required: "请输入权限名称",
+    //             existenceOrNot: "该权限已经存在"
+    //
+    //         },
+    //         mallPermissionDescription: {
+    //             required: "请输入权限描述",
+    //             existenceOrNotAuthority: "该权限描述已经存在",
+    //         }
+    //     },
+    // });
+    // // 监听添加模态框
+    // $("#permissionName").bind("input oninput", function (event) {
+    //     buttonActivity()
+    // });
+    // $("#permissionDescribe").bind("input oninput", function (event) {
+    //     buttonActivity()
+    // });
+    // // 监听修改模态框
+    // $("#updateName").bind("input oninput", function (event) {
+    //     updateButtonActivity()
+    // });
+    // $("#updatePermission").bind("input oninput", function (event) {
+    //     updateButtonActivity()
+    // });
+    //
+    // // 按钮控制函数
+    // function buttonActivity() {
+    //     if ($("#exampleModal-form").valid()) {
+    //         // 让按钮可点击
+    //         document.getElementById('submitAdd').removeAttribute('disabled');
+    //     } else {
+    //         document.getElementById('submitAdd').setAttribute("disabled", "disabled");
+    //     }
+    // }
+    //
+    // // 按钮控制函数
+    // function updateButtonActivity() {
+    //     if ($("#updateModal-form").valid()) {
+    //         // 让按钮可点击
+    //         document.getElementById('submitUpdate').removeAttribute('disabled');
+    //     } else {
+    //         document.getElementById('submitUpdate').setAttribute("disabled", "disabled");
+    //     }
+    // }
+    //
+    // /**
+    //  * 创建权限
+    //  */
+    // function addPermission() {
+    //     var metadata = $("#exampleModal-form").serialize();
+    //     axios({
+    //         url: '[[@{/permission/permissionManagement}]]',
+    //         method: "post",
+    //         contentType: 'application/json',
+    //         data: metadata
+    //     }).then(function (response) {
+    //         if (response.status === 200) {
+    //             layer.msg("成功修改" + response.data + "条权限数据", {
+    //                 icon: 1,
+    //                 time: 1000,
+    //                 offset: ["240px", "850px"],//坐标
+    //             }, function () {
+    //                 // 关闭模态框
+    //                 $('#exampleModal').modal('hide');
+    //             })
+    //         }
+    //     }).catch(function (error) {
+    //         console.log(error);
+    //     }).finally((response, error) => {
+    //         // console.log(response)
+    //         // console.log(error)
+    //     });
+    // }
+    //
+    // // 修改权限
+    // window.document.getElementById('submitUpdate').onclick = function () {
+    //     var metadata = $("#updateModal-form").serialize();
+    //     axios({
+    //         url: '[[@{/permission/permissionManagement}]]',
+    //         method: "put",
+    //         contentType: 'application/json',
+    //         data: metadata
+    //     }).then(function (response) {
+    //         if (response.status === 200) {
+    //             layer.msg("成功修改" + response.data + "条权限数据", {
+    //                 icon: 1,
+    //                 time: 1000,
+    //                 offset: ["240px", "850px"],//坐标
+    //             }, function () {
+    //                 $('#updateModal').modal('hide');
+    //             })
+    //         }
+    //     }).catch(function (error) {
+    //         console.log(error);
+    //     }).finally((response, error) => {
+    //         // console.log(response)
+    //         // console.log(error)
+    //     });
+    // }
+</script>
+
+<#--验证规则-->
+</body>
+</html>

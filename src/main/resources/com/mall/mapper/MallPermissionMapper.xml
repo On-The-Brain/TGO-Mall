@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mall.mapper.MallPermissionMapper">
+
+    <resultMap type="com.mall.entity.MallPermission" id="MallPermissionMap">
+        <result property="mallPermissionId" column="mall_permission_id" jdbcType="INTEGER"/>
+        <result property="mallPermissionName" column="mall_permission_name" jdbcType="VARCHAR"/>
+        <result property="mallPermissionDescription" column="mall_permission_description" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--通过角色查询权限-->
+    <select id="queryByRoleId" resultType="com.mall.entity.MallPermission">
+        select *
+        from mall_permission
+                 join mall_role_permission mrp on mall_permission.mall_permission_id = mrp.mall_permission_id
+        where mall_role_id = #{mallRoleId}
+    </select>
+
+
+</mapper>
+

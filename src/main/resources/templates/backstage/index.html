@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+>
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="renderer" content="webkit">
+    <title>index</title>
+    <base th:href="@{/}">
+    <link rel="shortcut icon" href="https://www.bilibili.com/favicon.ico">
+    <meta name="keywords" content="H+后台主题,后台bootstrap框架,会员中心主题,后台HTML,响应式后台">
+    <meta name="description"
+          content="H+是一个完全响应式，基于Bootstrap3最新版本开发的扁平化主题，她采用了主流的左右两栏式布局，使用了Html5+CSS3等现代技术">
+    <link href="/resources/css/bootstrap.min.css?v=3.4.0" rel="stylesheet">
+    <link href="/resources/font-awesome/css/font-awesome.css?v=4.3.0" rel="stylesheet">
+    <!-- Morris -->
+    <link href="/resources/css/plugins/morris/morris-0.4.3.min.css" rel="stylesheet">
+    <link href="/resources/css/animate.css" rel="stylesheet">
+    <link href="/resources/css/style.css?v=2.2.0" rel="stylesheet">
+<style>
+    body{
+        /*overflow:-Scroll;*/
+        overflow-y:hidden
+    }
+</style>
+</head>
+
+<body class="fixed-navigation">
+<div id="wrapper">
+    <nav class="navbar-default navbar-static-side" role="navigation">
+        <div class="sidebar-collapse">
+            <ul class="nav" id="side-menu">
+                <li class="nav-header">
+
+                    <div class="dropdown profile-element"> <span>
+                            <img alt="image" class="img-circle" src="/resources/img/profile_small.jpg"/>
+                             </span>
+                        <a data-toggle="dropdown" class="dropdown-toggle" href="index.html#">
+                                <span class="clear"> <span class="block m-t-xs"> <strong
+                                        class="font-bold">Beaut-zihan</strong>
+                             </span>  <span class="text-muted text-xs block">超级管理员 <b
+                                        class="caret"></b></span> </span>
+                        </a>
+                        <ul class="dropdown-menu animated fadeInRight m-t-xs">
+                            <li><a href="form_avatar.html">修改头像</a>
+                            </li>
+                            <li><a href="profile.html">个人资料</a>
+                            </li>
+                            <li><a href="contacts.html">联系我们</a>
+                            </li>
+                            <li><a href="mailbox.html">信箱</a>
+                            </li>
+                            <li class="divider"></li>
+                            <li><a th:href="@{/loginUser/logout}">安全退出</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="logo-element">
+                        H+
+                    </div>
+                </li>
+                <!------------------------------------------超级管理员访问---------------------------------------->
+                <li>
+                    <a href="#"><i class="fa fa-sitemap"></i> <span class="nav-label">管理员管理</span><span
+                            class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level">
+                        <li>
+                            <a th:href="@{/mallRole/start}" target="iframeMenu" data-path="/mallRole/start">角色管理 <span id="roleManagement" class="fa arrow" data-path="mallRole/start"
+                                             ></span></a>
+                        </li>
+                        <li><a th:href="@{/permission/start}" target="iframeMenu" >权限管理 <span id="authorityManagement" class="fa arrow"></span></a>
+                        </li>
+                        <li>
+                            <a href="index.html#">管理员列表 <span id="administratorList" class="fa arrow"
+                                                                   data-path=""></span></a>
+                        </li>
+                    </ul>
+                </li>
+                <!------------------------------------------商城内容管理----------------------------------------------->
+                <li>
+                    <a href="#"><i class="fa fa-th-large"></i> <span class="nav-label">商城内容管理</span><span
+                            class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level">
+                        <li>
+                            <a href="index.html#">轮播图管理 <span id="rotationChartManagement" class="fa arrow"></span></a>
+                        </li>
+                        <li><a href="index.html#">系统日志 <span class="fa arrow"></span></a>
+                        </li>
+                    </ul>
+                </li>
+                <!------------------------------------------商品管理----------------------------------------------->
+                <li>
+                    <a href="#"><i class="fa fa-reddit-square"></i> <span class="nav-label">商品管理</span><span
+                            class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level">
+                        <li>
+                            <a href="index.html#">商品列表 <span id="productList" class="fa arrow"></span></a>
+                        </li>
+                        <li><a href="index.html#">系统日志 <span id="基本设置" class="fa arrow"></span></a>
+                        </li>
+                    </ul>
+                </li>
+                <!------------------------------------------订单管理----------------------------------------------->
+                <li>
+                    <a href="#"><i class="fa fa-bars"></i> <span class="nav-label">订单管理</span><span
+                            class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level">
+                        <li>
+                            <a href="index.html#">基本设置 <span class="fa arrow"></span></a>
+                        </li>
+                        <li><a href="index.html#">系统日志 <span class="fa arrow"></span></a>
+                        </li>
+                    </ul>
+                </li>
+                <!------------------------------------------用户管理----------------------------------------------->
+                <li>
+                    <a href="#"><i class="fa fa-group (alias)"></i> <span class="nav-label">用户管理</span><span
+                            class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level">
+                        <li>
+                            <a href="index.html#">用户管理 <span class="fa arrow"></span></a>
+                        </li>
+                        <li><a href="index.html#">用户管理 <span class="fa arrow"></span></a>
+                        </li>
+                    </ul>
+                </li>
+                <!------------------------------------------评论管理----------------------------------------------->
+                <li>
+                    <a href="#"><i class="fa fa-twitch"></i> <span class="nav-label">评论管理</span><span
+                            class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level">
+                        <li>
+                            <a href="index.html#">基本设置 <span class="fa arrow"></span></a>
+                        </li>
+                        <li><a href="index.html#">系统日志 <span class="fa arrow"></span></a>
+                        </li>
+                    </ul>
+                </li>
+                <!------------------------------------------系统管理----------------------------------------------->
+                <li>
+                    <a href="#"><i class="fa fa-cogs"></i> <span class="nav-label">系统管理</span><span
+                            class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level">
+                        <li>
+                            <a href="index.html#">基本设置 <span id="basicSetup" class="fa arrow"></span></a>
+                        </li>
+                        <li><a href="index.html#">系统日志 <span id="systemLog" class="fa arrow"></span></a>
+                        </li>
+                    </ul>
+                </li>
+                <!----------------------------------------------------------------------------------------------->
+                <li>
+                    <a href="webim.html"><i class="fa fa-comments"></i> <span class="nav-label">即时通讯</span><span
+                            class="label label-danger pull-right">New</span></a>
+                </li>
+                <li>
+                    <a href="css_animation.html"><i class="fa fa-magic"></i> <span class="nav-label">CSS动画</span></a>
+                </li>
+                <li>
+                    <a href="index.html#"><i class="fa fa-cutlery"></i> <span class="nav-label">工具 </span><span
+                            class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level">
+                        <li><a href="form_builder.html">表单构建器</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+
+        </div>
+    </nav>
+    <input type="house" id="loggedUserId" th:each="cookie :${#httpServletRequest.getCookies()}"
+           th:if="${cookie.getName().equals('name')}"
+           th:value="${cookie.getValue()}">
+</div>
+<!--    嵌入ifream-->
+<!--<iframe id="pageSwitching" src="" style="margin-left: 213px;margin-top: 0; padding: 0"-->
+<!--        name="iframeMenu"-->
+<!--        onload="this.height=ifd.document.body.scrollHeight" width="100%" height="100%"  frameborder="0">-->
+<!--</iframe>-->
+
+<div class="admin-content" style="height: 100%" id="frameBox">
+    <iframe allowfullscreen="true" id="frameWin" src="" name="iframeMenu" style="width:100%; height:100% " frameborder="0" scrolling="no"
+            onload="iframeHeight()"></iframe>
+</div>
+
+
+
+<!-- Mainly scripts -->
+<script src="/resources/js/jquery-2.1.1.min.js"></script>
+<script src="/resources/js/bootstrap.min.js?v=3.4.0"></script>
+<script src="/resources/js/plugins/metisMenu/jquery.metisMenu.js"></script>
+<script src="/resources/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+<!-- Custom and plugin javascript -->
+<script src="/resources/js/hplus.js?v=2.2.0"></script>
+<!-- jQuery UI -->
+<script src="/resources/js/plugins/jquery-ui/jquery-ui.min.js"></script>
+
+<script>
+    //iframe层自适应高度
+    function iframeHeight(){
+        var frameWin = document.getElementById("frameWin");
+        var frameBox = document.getElementById("frameBox");
+        var newHeight;
+        if (frameWin.Document){
+            newHeight = frameWin.Document.body.scrollHeight + "px";
+        }else{
+            newHeight = frameWin.contentDocument.body.scrollHeight+ "px";
+        }
+        frameWin.style.height = newHeight;
+        frameBox.style.height = newHeight;
+    }
+</script>
+
+<script>
+    $(document).ready(function () {
+        $('.chart').easyPieChart({
+            barColor: '#f8ac59',
+            //                scaleColor: false,
+            scaleLength: 5,
+            lineWidth: 4,
+            size: 80
+        });
+
+        $('.chart2').easyPieChart({
+            barColor: '#1c84c6',
+            //                scaleColor: false,
+            scaleLength: 5,
+            lineWidth: 4,
+            size: 80
+        });
+
+        var d1 = [
+            [1262304000000, 1],
+            [1264982400000, 100],
+            [1267401600000, 1],
+            [1270080000000, 200],
+            [1272672000000, 1],
+            [1275350400000, 100],
+            [1277942400000, 1],
+            [1280620800000, 300]
+        ];
+        var d2 = [
+            [1262304000000, 100],
+            [1264982400000, 1],
+            [1267401600000, 150],
+            [1270080000000, 1],
+            [1272672000000, 230],
+            [1275350400000, 1],
+            [1277942400000, 150],
+            [1280620800000, 10]
+        ];
+
+        var data3 = [
+            {
+                label: "Data 1",
+                data: d1,
+                color: '#23c6c8'
+            },
+            {
+                label: "Data 2",
+                data: d2,
+                color: '#1ab394'
+            }
+        ];
+        $.plot($("#flot-chart3"), data3, {
+            xaxis: {
+                tickDecimals: 0
+            },
+            series: {
+                lines: {
+                    show: true,
+                    fill: true,
+                    fillColor: {
+                        colors: [{
+                            opacity: 1
+                        }, {
+                            opacity: 1
+                        }]
+                    },
+                },
+                curvedLines: {
+                    active: true,
+                    fit: true,
+                    apply: true
+                },
+                points: {
+                    width: 0.1,
+                    show: false
+                },
+            },
+            grid: {
+                show: false,
+                borderWidth: 0
+            },
+            legend: {
+                show: false,
+            }
+        });
+
+
+        var mapData = {
+            "US": 298,
+            "SA": 200,
+            "DE": 220,
+            "FR": 540,
+            "CN": 120,
+            "AU": 760,
+            "BR": 550,
+            "IN": 200,
+            "GB": 120,
+        };
+
+        $('#world-map').vectorMap({
+            map: 'world_mill_en',
+            backgroundColor: "transparent",
+            regionStyle: {
+                initial: {
+                    fill: '#e4e4e4',
+                    "fill-opacity": 0.9,
+                    stroke: 'none',
+                    "stroke-width": 0,
+                    "stroke-opacity": 0
+                }
+            },
+
+            series: {
+                regions: [{
+                    values: mapData,
+                    scale: ["#1ab394", "#22d6b1"],
+                    normalizeFunction: 'polynomial'
+                }]
+            },
+        });
+    });
+</script>
+<#--主题-->
+<div class="theme-config">
+    <div class="theme-config-box show">
+        <div class="spin-icon">
+            <i class="fa fa-cog fa-spin"></i>
+        </div>
+        <div class="skin-setttings">
+            <div class="title">主题设置</div>
+            <div class="setings-item">
+                <span>
+                        收起左侧菜单
+                </span>
+
+                <div class="switch">
+                    <div class="onoffswitch">
+                        <input type="checkbox" name="collapsemenu" class="onoffswitch-checkbox" id="collapsemenu">
+                        <label class="onoffswitch-label" for="collapsemenu">
+                            <span class="onoffswitch-inner"></span>
+                            <span class="onoffswitch-switch"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="setings-item">
+                <span>
+                        固定侧边栏
+                    </span>
+
+                <div class="switch">
+                    <div class="onoffswitch">
+                        <input type="checkbox" name="fixedsidebar" class="onoffswitch-checkbox" id="fixedsidebar">
+                        <label class="onoffswitch-label" for="fixedsidebar">
+                            <span class="onoffswitch-inner"></span>
+                            <span class="onoffswitch-switch"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="setings-item">
+                <span>
+                        固定顶部
+                    </span>
+
+                <div class="switch">
+                    <div class="onoffswitch">
+                        <input type="checkbox" name="fixednavbar" class="onoffswitch-checkbox" id="fixednavbar">
+                        <label class="onoffswitch-label" for="fixednavbar">
+                            <span class="onoffswitch-inner"></span>
+                            <span class="onoffswitch-switch"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="setings-item">
+                <span>
+                        固定宽度
+                    </span>
+
+                <div class="switch">
+                    <div class="onoffswitch">
+                        <input type="checkbox" name="boxedlayout" class="onoffswitch-checkbox" id="boxedlayout">
+                        <label class="onoffswitch-label" for="boxedlayout">
+                            <span class="onoffswitch-inner"></span>
+                            <span class="onoffswitch-switch"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="setings-item">
+                <span>
+                        固定底部
+                    </span>
+
+                <div class="switch">
+                    <div class="onoffswitch">
+                        <input type="checkbox" name="fixedfooter" class="onoffswitch-checkbox" id="fixedfooter">
+                        <label class="onoffswitch-label" for="fixedfooter">
+                            <span class="onoffswitch-inner"></span>
+                            <span class="onoffswitch-switch"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="setings-item">
+                <span>
+                        RTL模式
+                    </span>
+
+                <div class="switch">
+                    <div class="onoffswitch">
+                        <input type="checkbox" name="RTLmode" class="onoffswitch-checkbox" id="RTLmode">
+                        <label class="onoffswitch-label" for="RTLmode">
+                            <span class="onoffswitch-inner"></span>
+                            <span class="onoffswitch-switch"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="title">皮肤选择</div>
+
+            <div class="setings-item default-skin">
+                <span class="skin-name ">
+                         <a id="default" type="button"
+                            style="border: 0;outline: none;background-color:transparent;" class="s-skin-0">
+                             默认皮肤
+                         </a>
+                </span>
+            </div>
+            <div class="setings-item blue-skin">
+                <span class="skin-name ">
+                        <a class="s-skin-1">
+                            蓝色主题
+                        </a>
+                    </span>
+            </div>
+            <div class="setings-item yellow-skin">
+                <span class="skin-name ">
+                        <a class="s-skin-3">
+                            黄色/紫色主题
+                        </a>
+                    </span>
+            </div>
+            <div class="setings-item ultra-skin">
+                <span class="skin-name ">
+                        <a class="s-skin-2">
+                            灰色主题
+                        </a>
+                    </span>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    // 顶部菜单固定
+    $('#fixednavbar').click(function () {
+        if ($('#fixednavbar').is(':checked')) {
+            $(".navbar-static-top").removeClass('navbar-static-top').addClass('navbar-fixed-top');
+            $("body").removeClass('boxed-layout');
+            $("body").addClass('fixed-nav');
+            $('#boxedlayout').prop('checked', false);
+        } else {
+            $(".navbar-fixed-top").removeClass('navbar-fixed-top').addClass('navbar-static-top');
+            $("body").removeClass('fixed-nav');
+        }
+    });
+
+    // 左侧菜单固定
+    $('#fixedsidebar').click(function () {
+        if ($('#fixedsidebar').is(':checked')) {
+            $("body").addClass('fixed-sidebar');
+            $('.sidebar-collapse').slimScroll({
+                height: '100%',
+                railOpacity: 0.9
+            });
+        } else {
+            $('.sidebar-collapse').slimscroll({
+                destroy: true
+            });
+            $('.sidebar-collapse').attr('style', '');
+            $("body").removeClass('fixed-sidebar');
+        }
+    });
+
+    // 收起左侧菜单
+    $('#collapsemenu').click(function () {
+        if ($('#collapsemenu').is(':checked')) {
+            $("body").addClass('mini-navbar');
+            SmoothlyMenu();
+        } else {
+            $("body").removeClass('mini-navbar');
+            SmoothlyMenu();
+        }
+    });
+
+    // 自适应宽度
+    $('#boxedlayout').click(function () {
+        if ($('#boxedlayout').is(':checked')) {
+            $("body").addClass('boxed-layout');
+            $('#fixednavbar').prop('checked', false);
+            $(".navbar-fixed-top").removeClass('navbar-fixed-top').addClass('navbar-static-top');
+            $("body").removeClass('fixed-nav');
+            $(".footer").removeClass('fixed');
+            $('#fixedfooter').prop('checked', false);
+        } else {
+            $("body").removeClass('boxed-layout');
+        }
+    });
+
+    // 底部版权固定
+    $('#fixedfooter').click(function () {
+        if ($('#fixedfooter').is(':checked')) {
+            $('#boxedlayout').prop('checked', false);
+            $("body").removeClass('boxed-layout');
+            $(".footer").addClass('fixed');
+        } else {
+            $(".footer").removeClass('fixed');
+        }
+    });
+
+    // RTL模式
+    $('#RTLmode').click(function () {
+        if ($('#RTLmode').is(':checked')) {
+            $('head').append('<link href="/resources/css/bootstrap-rtl.css" id="rtl-mode" rel="stylesheet">');
+            $('body').addClass('rtls');
+        } else {
+            $('#rtl-mode').remove();
+            $('body').removeClass('rtls');
+        }
+    });
+
+    // 皮肤选择
+    $('.spin-icon').click(function () {
+        $(".theme-config-box").toggleClass("show");
+    });
+
+    // 默认主题
+    $('.s-skin-0').click(function () {
+        $("body").removeClass("skin-1");
+        $("body").removeClass("skin-2");
+        $("body").removeClass("skin-3");
+    });
+
+    // 蓝色主题
+    $('.s-skin-1').click(function () {
+        $("body").removeClass("skin-2");
+        $("body").removeClass("skin-3");
+        $("body").addClass("skin-1");
+    });
+
+    // 灰色主题
+    $('.s-skin-2').click(function () {
+        $("body").removeClass("skin-1");
+        $("body").removeClass("skin-3");
+        $("body").addClass("skin-2");
+    });
+
+    // 黄色主题
+    $('.s-skin-3').click(function () {
+        $("body").removeClass("skin-1");
+        $("body").removeClass("skin-2");
+        $("body").addClass("skin-3");
+    });
+</script>
+
+</body>
+
+</html>

@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="renderer" content="webkit">
+    <title>role</title>
+    <base th:href="@{/}">
+    <meta name="keywords" content="H+后台主题,后台bootstrap框架,会员中心主题,后台HTML,响应式后台">
+    <meta name="description"
+          content="H+是一个完全响应式，基于Bootstrap3最新版本开发的扁平化主题，她采用了主流的左右两栏式布局，使用了Html5+CSS3等现代技术">
+    <!--bootstrap-table-->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css">
+    <link href="/resources/js/plugins/layer/mobile/need/layer.css" rel="stylesheet">
+    <link href="/resources/css/bootstrap-4.2.1.min.css" rel="stylesheet">
+    <link href="/resources/css/bootstrap-table.min.css" rel="stylesheet">
+    <link href="/resources/font-awesome/css/iconfont.css" rel="stylesheet">
+    <!--页面样式-->
+    <link href="/resources/font-awesome/css/font-awesome.css?v=4.3.0" rel="stylesheet">
+    <link href="/resources/css/style.css?v=2.2.0" rel="stylesheet">
+</head>
+<style>
+    body {
+        /*overflow:-Scroll;*/
+        /*overflow-y: hidden*/
+    }
+</style>
+<body>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content" style="width: 850px;height: 540px">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">创建新角色</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <ul class="list-group">
+                <li class="list-group-item list-group-item-success">添加角色不必以Role开头，系统会自动生成</li>
+            </ul>
+            <div class="modal-body">
+                <form class="was-validated " id="exampleModal-form">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text bg-light">角色名称</div>
+                            <div class="input-group-text">Role&colon;</div>
+                        </div>
+                        <input type="text" name="mallRoleName" class="form-control is-valid" required
+                               placeholder="请输入角色名称"
+                               aria-label="Input group example" id="roleName" aria-describedby="btnGroupAddon">
+                    </div>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text bg-light">角色描述</div>
+                            <div class="input-group-text">Role&colon;</div>
+                        </div>
+                        <input type="text" class="form-control is-valid" placeholder="请输入角色描述"
+                               name="mallRoleDescription"
+                               aria-label="Input group example" id="roleDescribe" required
+                               aria-describedby="btnGroupAddon">
+                    </div>
+
+                    <!--多选框-->
+                    <table class="table">
+                        <tbody id="checkbox_vessel">
+                        </tbody>
+                    </table>
+                    <div></div>
+                    <!---->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" disabled onclick="addRole()" id="submitAdd" class="btn btn-primary">
+                            <i class="fa fa-check"></i>
+                            提交
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="wrapper">
+    <div id="page-wrapper" class="gray-bg dashbard-1">
+        <div class="row border-bottom">
+            <div class="row col-lg-12">
+                <div class="col-lg-12">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>管理员权限分配展示</h5>
+                            <div class="ibox-tools">
+                                <a class="collapse-link">
+                                    <i class="fa fa-chevron-up"></i>
+                                </a>
+                                <a class="close-link">
+                                    <i class="fa fa-times"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="ibox-content">
+                            <div class="row">
+                                <div class="col-sm-5 m-b-xs">
+                                    <select class="input-sm form-control input-s-sm inline">
+                                        <option value="0">请选择</option>
+                                        <option value="1">选项1</option>
+                                        <option value="2">选项2</option>
+                                        <option value="3">选项3</option>
+                                    </select>
+                                </div>
+                                <div class="col-sm-4 m-b-xs">
+                                    <div data-toggle="buttons" class="btn-group">
+                                        <label class="btn btn-sm btn-white">
+                                            <input type="radio" id="option1" name="options">天</label>
+                                        <label class="btn btn-sm btn-white active">
+                                            <input type="radio" id="option2" name="options">周</label>
+                                        <label class="btn btn-sm btn-white">
+                                            <input type="radio" id="option3" name="options">月</label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="input-group">
+                                        <input type="text" placeholder="请输入关键词" class="input-sm form-control">
+                                        <span class="input-group-btn">
+                                        <button type="button" class="btn btn-sm btn-primary"> 搜索</button> </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="table-responsive">
+                                <!--bootstrap-table自定义工具栏-->
+                                <div class="table-box" style="margin: 20px;">
+                                    <div id="toolbar">
+                                        <button id="save" onclick="open_add_modalBox()"
+                                                class="btn btn-outline btn-success">创建角色
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="alert alert-success" role="alert">
+                                    共有角色<a href="#" class="alert-link" id="lengthRole"></a>名
+                                </div>
+                                <table id="table" class="table-striped"></table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer">
+            <div class="pull-right">
+                By：<a href="http://www.zi-han.net" target="_blank">zihan's blog</a>
+            </div>
+            <div>
+                <strong>Copyright</strong> H+ &copy; 2014
+            </div>
+        </div>
+    </div>
+</div>
+<#--引入bootstrap-table-->
+<script src="/resources/js/jquery-2.1.1.min.js"></script>
+<script src="/resources/js/axios.min.js"></script>
+<#--表单验证-->
+<script src="/resources/js/plugins/validate/jquery.validate.min.js"></script>
+<script src="/resources/js/plugins/validate/validate-methods.js"></script>
+<script src="/resources/js/plugins/validate/messages_zh.min.js"></script>
+
+<script src="/resources/js/plugins/layer/layer.js"></script>
+<script src="/resources/js/plugins/dataTables/popper.min.js"></script>
+<script src="/resources/js/plugins/dataTables/bootstrap4.2.1.min.js"></script>
+<script src="/resources/js/plugins/dataTables/bootstrap-table.min.js"></script>
+<script>
+    // $("#table").bootstrapTable("destroy");
+    $("#table").bootstrapTable({
+        url: "[[@{/mallRole/roleManagement}]]",
+        pagination: true, //获得分页功能
+        toolbar: '#toolbar',    //工具按钮用哪个容器
+        checkbox: true,
+        singleSelect: false, // 设置为true将禁止多选
+        pageNumber: 1,   // 首页页码，默认为1
+        pageSize: 10, //默认分页数量
+        pageList: [5, 10, 15, 20], //可以选择分页的数量
+        search: true, //获得一个搜索框
+        searchOnEnterkey: false, //回车执行搜索
+        paginationLoop: true,//是否开启分页条无限循环
+        striped: true, //开启斑马线
+        sortable: true,      //是否启用排序
+        sortOrder: "asc",    //排序方式
+        clickToSelect: true, //是否启用点击选中行
+        showColumns: true, //获得一个能选择显示某些列的按钮
+        showRefresh: true, //获得一个刷新数据按钮
+        sidePagination: 'server',//服务端处理分页
+        locale: 'zh-CN',//中文支持,
+        buttonsPrefix: 'btn btn-primary',
+        queryParams: function (params) {// 上传服务器的参数
+            return {// 如果是在服务器端实现分页，limit、offset这两个参数是必须的
+                size: params.limit,
+                page: (params.offset / params.limit) + 1,
+
+                // 获取收缩框的内容
+                // condition: $(".search-input").val()
+            };
+        }, columns: [
+            {
+                checkbox: true
+            },
+            {
+                field: "mallRoleId",
+                title: "角色编号"
+            },
+            {
+                field: "mallRoleName",
+                title: "角色名称"
+            },
+            {
+                field: "mallRoleDescription",
+                title: "角色描述"
+            }, {
+                field: "mallPermissionList",
+                title: "角色权限",
+                formatter: nameForm,
+
+            }, {
+                field: '#',
+                title: '操作',
+                align: 'center',
+                formatter: function (value, row, index) {
+                    console.log(row)
+                    return "<a href='javascript:;' onclick='roleUpdate(\"" + index + "\")'><i style='margin-right: 20px' title='权限修改' class=\"iconfont icon-xiugai\"></i></a>" +
+                            "<a href='javascript:;' onclick='deleteRole(\"" + index + "\")'><i style='margin-right: 10px' title='删除' class=\"iconfont icon-shanchu\"></i></a>"
+                }
+                // fa-gear (alias)
+                // $("#table").bootstrapTable('showColumn', 'ShopName');
+            }
+        ],
+    })
+
+    // 下拉框添加
+    function nameForm(value, row, index) {
+        var dataSel = $('#table').bootstrapTable('getData')[index];
+        // 获取角色数量
+        $("#lengthRole").text($("#table").bootstrapTable("getOptions").totalRows)
+        var str = '<select id="` + mallRoleId + `" onchange="selectchange(` + row.id + `)"  class="input-sm form-control input-s-sm inline">';
+        for (let i = 0; i < Object.keys(dataSel.mallPermissionList).length; i++) {
+            var op = $('#table').bootstrapTable('getData')[index].mallPermissionList[i];
+            str += `<option selected id="" disabled value="` + op.mallPermissionId + `">` + op.mallPermissionDescription + `</option>`
+        }
+        str += '</select>';
+        return str;
+    }
+
+    // 添加信息的多选框
+    $(function () {
+        axios({
+            url: '[[@{/permission/permissionAll}]]',
+            method: "get",
+        }).then(res => {
+            let inx;
+            let id = "tr_" + inx;
+            for (let i = 0; i < res.data.length; i++) {
+                if (i % 5 === 0) {
+                    inx = i;
+                    $("#checkbox_vessel").append('<tr id=' + 'tr_' + i + '>')
+                }
+                let str = '<td>' +
+                        '<div style="display:inline;" class="custom-control custom-switch">' +
+                        '<input type="checkbox" onclick="state(this)" data-state="off" value="' + res.data[i].mallPermissionId + '" class="custom-control-input" id="' + res.data[i].mallPermissionId + '">' +
+                        '<label class="custom-control-label" for="' + res.data[i].mallPermissionId + '">' + res.data[i].mallPermissionDescription + '</label>' +
+                        '</div>' +
+                        '</td>';
+                $('#tr_' + inx).append(str)
+            }
+        })
+    })
+
+    // 对多选框添加点击事件
+    function state(res) {
+        // $('input[class="custom-control-input"]').each(function(){
+        // let this = $(this);
+        if ($(res).attr("data-state") === "off") {
+            $(res).attr("data-state", "no")
+        } else {
+            $(res).attr("data-state", "off")
+        }
+    }
+
+    function addRole() {
+        var array = new Array();
+        // var metadata = $("#exampleModal-form").serialize();
+        // 把数组添加到对象
+        var mallRoleName = $('input[name="mallRoleName"]').val();
+        var mallRoleDescription = $('input[name="mallRoleDescription"]').val();
+        $('input[data-state="no"]').each(function () {
+            array.push($(this).val())
+        });
+        // array.push(mallRoleName, mallRoleDescription)
+        // console.log(mallRoleName)
+        // console.log(mallRoleDescription)
+        axios({
+            url: '[[@{/mallRole/roleManagement}]]',
+            method: "post",
+            contentType: 'application/json',
+            data: {
+                "mallRoleName": mallRoleName,
+                "mallRoleDescription": mallRoleDescription,
+                "list": array
+            }
+        }).then(function (response) {
+            if (response.status === 200) {
+                layer.msg("添加" + response.data.RoleCount + "条角色数据" + '<br>' +
+                        "该角色权限已添加" + response.data.RolePermissionCount + "条", {
+                    icon: 1,
+                    time: 1000,
+                    offset: ["40px", "750px"],//坐标
+                }, function () {
+                    // 关闭模态框
+                    $('#exampleModal').modal('hide');
+                })
+            }
+        }).catch(function (error) {
+            layer.msg("添加失败" + error, {
+                icon: 2,
+                time: 1500,
+                offset: ["40px", "750px"],//坐标
+            }, function () {
+                // // 关闭模态框
+                // $('#exampleModal').modal('hide');
+            })
+            console.log(error);
+        }).finally((response, error) => {
+            // console.log(response)
+            // console.log(error)
+        });
+    }
+
+
+    function roleUpdate(index) {
+        var mallRoll = $("#table").bootstrapTable('getData')[index];
+        layer.open({
+            type: 2,
+            area: ['700px', '500px'],
+            shade: 0.4,
+            shadeClose: true,// 是否点击遮罩关闭：默认：false
+            offset: ["140px", "500px"],//坐标
+            title: mallRoll.mallRoleDescription,
+            anim: 5,
+            content: "[[@{/mallRole/roleUpdate}]]/" + mallRoll.mallRoleId,
+            success: function (res,index) {
+                var body = layer.getChildFrame('body', index);
+                body.contents().find("#roleId").val(mallRoll.mallRoleId)
+            },
+            end:function () {
+                window.parent.location.reload();
+            }
+        })
+
+    }
+
+    function open_add_modalBox() {
+        $("#exampleModal-form")[0].reset()
+        $("#exampleModal").modal('show')
+        // 清楚表单验证信息
+        validateAdd.resetForm()
+    }
+
+    // 删除信息
+    function deleteRole(index) {
+        var mallRoleId = $("#table").bootstrapTable('getData')[index].mallRoleId;
+        layer.confirm('确认删除？', {
+            btn: ['确定', '取消'] //按钮
+        }, function () {
+            axios({
+                url: '[[@{/mallRole/roleManagement}]]/' + mallRoleId,
+                method: "delete",
+                type: "json",
+                // params: {"mallRoleId": mallRoleId}
+            }).then(res => {
+                layer.msg("删除成功," + res.data.roleCount + "<br>" +
+                        "角色权限删除" + res.data.rolePermissionCount + "条", {
+                    icon: 6,
+                    time: 1000
+                }, function () {
+                    $('#table').bootstrapTable('refresh', {
+                        field: 'index',
+                        values: index
+                    });
+                })
+            }).catch(err => console.error)
+        }, function () {
+            layer.msg('三思而后行', {
+                time: 1500,
+            });
+        });
+
+    }
+
+
+    // 权限名称验证规则
+    jQuery.validator.addMethod("existenceOrNot", function (value, element) {    //用jquery ajax的方法验证是不是已存在
+        var flag = false;
+        $.ajax({
+            type: "get",
+            async: false,
+            url: '[[@{/mallRole/roleManagement}]]/' + value + "/name",
+            success: function (msg) {
+                flag = msg;
+            }
+        });
+        return flag;
+    });
+
+    // 权限描述验证规则
+    jQuery.validator.addMethod("existenceOrNotAuthority", function (value, element) {    //用jquery ajax的方法验证是不是已存在
+        var flag = false;
+        $.ajax({
+            type: "get",
+            async: false,
+            url: '[[@{/mallRole/roleManagement}]]/' + value + "/describe",
+            success: function (msg) {
+                if (msg) {
+                    // $("#permissionDescribe-error").remove()
+                }
+                flag = msg;
+            }
+        });
+        return flag;
+    });
+    jQuery.validator.addMethod("front", function (value, element) {
+        return !new RegExp("^role:").test(value.toLowerCase());
+    }, "禁止以{role:}开头");
+    var validateAdd = $("#exampleModal-form").validate({
+        rules: {  //校验规则
+            mallRoleName: {
+                required: true,
+                front: true,
+                existenceOrNot: true
+            },
+            mallRoleDescription: {
+                required: true,
+                existenceOrNotAuthority: true
+            }
+        },
+        messages: { //提示
+            mallRoleName: {
+                required: "请输入角色名称",
+                existenceOrNot: "该角色已经存在"
+            },
+            mallRoleDescription: {
+                required: "请输入角色描述",
+                existenceOrNotAuthority: "该角色描述已经存在",
+            }
+        },
+    });
+    // 监听添加模态框
+    $("#mallRoleName").bind("input oninput", function (event) {
+        buttonActivity()
+    });
+    $("#mallRoleDescription").bind("input oninput", function (event) {
+        buttonActivity()
+    });
+
+    // 按钮控制函数
+    function buttonActivity() {
+        if ($("#exampleModal-form").valid()) {
+            // 让按钮可点击
+            document.getElementById('submitAdd').removeAttribute('disabled');
+        } else {
+            document.getElementById('submitAdd').setAttribute("disabled", "disabled");
+        }
+    }
+
+
+    $(document).ready(function () {
+        $('#table').bootstrapTable('resetView', {height: 749});
+
+    });
+</script>
+</body>
+
+</html>

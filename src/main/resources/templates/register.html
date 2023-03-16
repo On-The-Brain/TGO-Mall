@@ -1,0 +1,392 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="Generator" content="EditPlus®">
+    <meta name="Author" content="">
+    <meta name="Keywords" content="">
+    <meta name="Description" content="">
+    <meta http-equiv="X-UA-Compatible" content="IE=9; IE=8; IE=7; IE=EDGE">
+    <meta name="renderer" content="webkit">
+    <title>用户注册</title>
+    <link href="/resources/js/plugins/layer/mobile/need/layer.css" rel="stylesheet">
+    <link href="/resources/css/bootstrap.min.css?v=3.4.0" rel="stylesheet">
+    <link href="/resources/font-awesome/css/font-awesome.css?v=4.3.0" rel="stylesheet">
+    <link href="/resources/css/plugins/iCheck/custom.css" rel="stylesheet">
+    <link href="/resources/css/plugins/steps/jquery.steps.css" rel="stylesheet">
+    <link href="/resources/css/animate.css" rel="stylesheet">
+    <link href="/resources/css/plugins/datapicker/datepicker3.css" rel="stylesheet">
+    <link href="/resources/css/style.css?v=2.2.0" rel="stylesheet">
+</head>
+<body>
+
+<!--&lt;!&ndash;- header begin&ndash;&gt;-->
+<!--<header id="pc-header">-->
+<!--    <div class="login-header" style="padding-bottom:0">-->
+<!--        <div><h1><a href="index.html"><img src="/theme/icon/logo.png" alt=""></a></h1></div>-->
+<!--    </div>-->
+<!--</header>-->
+<div class="row">
+    <div class="col-lg-12">
+        <div class="ibox">
+            <div class="ibox-title">
+                <h5>注册</h5>
+                <div class="ibox-tools">
+                    <a class="collapse-link">
+                        <i class="fa fa-chevron-up"></i>
+                    </a>
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="form_wizard.html#">
+                        <i class="fa fa-wrench"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-user">
+                        <li><a href="form_wizard.html#">选项1</a>
+                        </li>
+                        <li><a href="form_wizard.html#">选项2</a>
+                        </li>
+                    </ul>
+                    <a class="close-link">
+                        <i class="fa fa-times"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="ibox-content">
+                <ul class="list-group">
+                    <li class="list-group-item list-group-item-success">请输入您的注册信息</li>
+                </ul>
+                <form id="registerForm" class="wizard-big">
+                    <h1>账户</h1>
+                    <fieldset>
+                        <div class="row">
+                            <div class="col-lg-8">
+                                <div class="form-group">
+                                    <label>用户名 *</label>
+                                    <input id="userName" name="mallUsername" type="text" class="form-control required">
+                                </div>
+                                <div class="form-group">
+                                    <label>密码 *</label>
+                                    <input id="password" name="mallPassword" type="text" class="form-control required">
+                                </div>
+                                <div class="form-group">
+                                    <label>确认密码 *</label>
+                                    <input id="confirm" name="affirmPassword" type="text" class="form-control required">
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="text-center">
+                                    <div style="margin-top: 20px">
+                                        <i class="fa fa-sign-in" style="font-size: 180px;color: #e5e5e5 "></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </fieldset>
+                    <h1>个人资料</h1>
+                    <fieldset>
+                        <h2>个人资料信息</h2>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label for="name">昵称 *</label>
+                                    <input id="name" name="mallNickName" type="text" class="form-control required">
+                                </div>
+
+                                <div class="form-group" id="myDatepicker">
+                                    <label for="birthday">生日 *</label>
+                                    <input id="birthday" name="mallUserBirthday" type="date"
+                                           class="form-control required">
+                                </div>
+                            </div>
+
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label>手机号 *</label>
+                                    <input id="tel" name="mallUserPhone" type="tel" class="form-control required tel">
+                                </div>
+                                <div class="form-group">
+                                    <label>地址 *</label>
+                                    <input id="address" name="address" type="text" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+                    <h1>警告</h1>
+                    <fieldset>
+                        <div class="text-center" style="margin-top: 120px">
+                            <h2>可拓展验证功能</h2>
+                        </div>
+                    </fieldset>
+                    <h1>完成</h1>
+                    <fieldset>
+                        <h2>条款</h2>
+                        <input id="acceptTerms" name="acceptTerms" type="checkbox" class="required">
+                        <label for="acceptTerms">我同意</label><a href='javascript:;'
+                                                                  onclick="openClause()">注册条款</a>
+
+                        <button type="button" onclick="registrationSubmission()" style="margin-bottom: 0px"
+                                class="btn  btn-primary">提交
+                        </button>
+                    </fieldset>
+
+                </form>
+                <footer id="footer">
+                    <div class="containers">
+                        <div class="w" style="padding-top:30px">
+                            <div id="footer-2013">
+                                <div class="links">
+                                    <a href="">关于我们</a>
+                                    |
+                                    <a href="">联系我们</a>
+                                    |
+                                    <a href="">人才招聘</a>
+                                    |
+                                    <a href="">商家入驻</a>
+                                    |
+                                    <a href="">广告服务</a>
+                                    |
+                                    <a href="">手机京东</a>
+                                    |
+                                    <a href="">友情链接</a>
+                                    |
+                                    <a href="">销售联盟</a>
+                                    |
+                                    <a href="">English site</a>
+                                </div>
+                                <div style="padding-left:10px">
+                                    <p style="padding-top:10px; padding-bottom:10px; color:#999">
+                                        网络文化经营许可证：浙网文[2013]0268-027号|
+                                        增值电信业务经营许可证：浙B2-20080224-1</p>
+                                    <p style="padding-bottom:10px; color:#999">信息网络传播视听节目许可证：1109364号 |
+                                        互联网违法和不良信息举报电话:0571-81683755</p>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </footer>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+<!-- Mainly scripts -->
+<script src="/resources/js/jquery-2.1.1.min.js"></script>
+<script src="/resources/js/bootstrap.min.js?v=3.4.0"></script>
+<script src="/resources/js/plugins/metisMenu/jquery.metisMenu.js"></script>
+<script src="/resources/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+<script src="/resources/js/axios.min.js"></script>
+<!-- Custom and plugin javascript -->
+<script src="/resources/js/hplus.js?v=2.2.0"></script>
+<script src="/resources/js/plugins/pace/pace.min.js"></script>
+<!-- Steps -->
+<script src="/resources/js/plugins/staps/jquery.steps.min.js"></script>
+<!-- Jquery Validate -->
+<script src="/resources/js/plugins/validate/jquery.validate.min.js"></script>
+<script src="/resources/js/plugins/validate/validate-methods.js"></script>
+<script src="/resources/js/plugins/validate/messages_zh.min.js"></script>
+<script src="/resources/js/plugins/datapicker/bootstrap-datepicker.js"></script>
+<script src="/resources/js/plugins/layer/layer.js"></script>
+<script>
+    $(document).ready(function () {
+        var $date = $("#myDatepicker");
+        $(document).ready(function () {
+            $date.datepicker({
+                language: "zh-CN", //中文
+                autoclose: true, //自动关闭
+                clearBtn: true, //显示'清空'按钮
+                todayBtn: true, //显示'今天'按钮
+                todayHighlight: true, //当天高亮
+                format: "yyyy.mm.dd" //日期格式
+            });
+            $date.datepicker('setDate', new Date());
+            $date.datepicker('setStartDate', new Date());
+            $date.datepicker('clearDates', new Date());
+        });
+
+        $("#wizard").steps();
+        $("#registerForm").steps({
+            bodyTag: "fieldset",
+            enableCancelButton: false,
+            enableFinishButton: false,
+            // onFinished: function (event, currentIndex) {
+            //     var form = $(this);
+            //     // Submit form input
+            //     console.log(form.serializeArray())
+            //     // form.submit();
+            // },
+            onStepChanging: function (event, currentIndex, newIndex) {
+                var form = $(this);
+
+                // Disable validation on fields that are disabled or hidden.
+                form.validate().settings.ignore = ":disabled,:hidden";
+
+                // Start validation; Prevent going forward if false
+                return form.valid();
+            }
+        })
+    });
+    // 手机号验证
+    jQuery.validator.addMethod("isPhone", function (value, element) {
+        var length = value.length;
+        var mobile = /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1})|(17[0-9]{1}))+\d{8})$/;
+        return this.optional(element) || (length == 11 && mobile.test(value));
+    }, "请填写正确的手机号码");//可以自定义默认提示信息
+    // 用户名重复验证
+    jQuery.validator.addMethod("existenceOrNotAuthority", function (value, element) {    //用jquery ajax的方法验证是不是已存在
+        var flag = false;
+        $.ajax({
+            type: "get",
+            async: false,
+            url: '[[@{/register/registerMessage}]]/' + value + "/''",
+            success: function (msg) {
+                flag = msg;
+            }
+        });
+        return flag;
+    });
+    // 昵称重复验证
+    jQuery.validator.addMethod("duplicateNicknameVerification", function (value, element) {    //用jquery ajax的方法验证是不是已存在
+        var flag = false;
+        $.ajax({
+            type: "get",
+            async: false,
+            url: '[[@{/register/registerMessage}]]/""/' + value,
+            success: function (msg) {
+                flag = msg;
+            }
+        });
+        return flag;
+    });
+
+    var validateAdd = $("#registerForm").validate({
+        rules: {  //校验规则
+            mallUsername: {
+                required: true,
+                existenceOrNotAuthority: true,
+                minlength: 6,
+                maxlength: 18,
+            },
+            mallPassword: {
+                required: true,
+                minlength: 6,
+                maxlength: 20,
+            },
+            affirmPassword: {
+                equalTo: "#password",
+                minlength: 6,
+                maxlength: 20,
+                required: true,
+            },
+            mallNickName: {
+                required: true,
+                duplicateNicknameVerification: true
+            },
+            mallUserPhone: {
+                required: true,
+                isPhone: true
+            }
+        },
+        messages: { //提示
+            mallUsername: {
+                required: "请输入用户名",
+                existenceOrNotAuthority: "该用户名已经存在",
+                minlength: "用户名长度不得少于6个字符",
+                maxlength: "用户名长度不得高于18个字符",
+            },
+            mallPassword: {
+                required: "请设置密码",
+                minlength: "密码长度不得少于6个字符",
+                maxlength: "设这么长记得住吗",
+            },
+            affirmPassword: {
+                equalTo: "两次输入的密码不一致",
+                minlength: "密码长度不得少于6个字符",
+                maxlength: "越界了",
+                required: "请确认密码",
+            }, mallNickName: {
+                required: "昵称不能为空",
+                duplicateNicknameVerification: "该昵称太热门了，换一个吧"
+            }, mallUserPhone: {
+                required: "请输入手机号",
+                isPhone: "请输入正确的手机号！！"
+            }
+        },
+    });
+
+    /**
+     *  $.ajax({
+     *                 url: '[[@{/register/registerMessage}]]',
+     *                 type: 'post',
+     *                 data: metadata,
+     *                 success: function (res) {
+     *                     // 只有请求成功（状态码为200）才会执行这个函数
+     *                     console.log(res);
+     *                 },
+     *                 error: function (xhr) {
+     *                     // 只有请求不正常（状态码不为200）才会执行
+     *                     console.log('error', xhr);
+     *                 },
+     *                 complete: function (xhr) {
+     *                     // 不管是成功还是失败都是完成，都会执行这个 complete 函数(一般成功与失败都需要执行的操作写在这里)
+     *                     console.log('complete', xhr);
+     *                 }
+     *             });
+     */
+    // 注册提交
+    function registrationSubmission() {
+        var metadata = $("#registerForm").serialize()
+        if ($("#acceptTerms").prop('checked')) {
+            axios({
+                url: '[[@{/register/registerMessage}]]',
+                method: "post",
+                contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+                data: metadata
+            }).then(function (response) {
+                if (response.status === 200) {
+                    layer.msg("注册成功", {
+                        icon: 1,
+                        time: 1500,
+                    },function () {
+                        window.location.href="[[@{/loginUser/start}]]"
+                    })
+                }
+            }).catch(function (error) {
+                layer.msg("注册失败", {
+                    icon: 1,
+                    time: 1500,
+                })
+                console.log(error);
+            }).finally((response, error) => {
+                // console.log(response)
+                // console.log(error)
+            });
+        } else {
+            layer.msg('请先阅读协议并勾选', {
+                icon: 5,
+                time: 1500
+            });
+        }
+    }
+
+    // 条款
+    function openClause() {
+        layer.open({
+            type: 2,
+            area: ['900px', '600px'],
+            shade: 0.4,
+            shadeClose: true,// 是否点击遮罩关闭：默认：false
+            // offset: ["140px", "500px"],//坐标
+            title: "注册条款",
+            anim: 5,
+            content: "[[@{/loginUser/clause/start}]]",
+        })
+    }
+
+    // $(window).bind("load", function () {
+    //     $('a[href="#finish"]').attr("disabled",true).css("pointer-events","none").css("background-color","#7f7e7e")
+    // })
+
+</script>
+</body>
+</html>

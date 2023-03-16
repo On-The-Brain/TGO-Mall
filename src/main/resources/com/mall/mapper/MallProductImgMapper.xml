@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mall.mapper.MallProductImgMapper">
+
+    <resultMap type="com.mall.entity.MallProductImg" id="MallProductImgMap">
+        <result property="productImgId" column="product_img_id" jdbcType="INTEGER"/>
+        <result property="productImgPath" column="product_img_path" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!-- 批量插入 -->
+    <insert id="insertBatch" keyProperty="productImgId" useGeneratedKeys="true">
+        insert into shoppingmall.mall_product_img(product_img_path)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+        (#{entity.productImgPath})
+        </foreach>
+    </insert>
+    <!-- 批量插入或按主键更新 -->
+    <insert id="insertOrUpdateBatch" keyProperty="productImgId" useGeneratedKeys="true">
+        insert into shoppingmall.mall_product_img(product_img_path)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.productImgPath})
+        </foreach>
+        on duplicate key update
+        product_img_path = values(product_img_path)
+    </insert>
+
+</mapper>
+

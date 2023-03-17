@@ -11,6 +11,7 @@
     <meta name="renderer" content="webkit">
     <title>立即登录</title>
     <base th:href="@{/}">
+    <link rel="shortcut icon" href="/resources/logo/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="/theme/css/base.css">
     <link rel="stylesheet" type="text/css" href="/theme/css/login.css">
     <script src="/theme/js/jquery-3.1.1.min.js"></script>
@@ -19,7 +20,7 @@
 <div class="w">
     <div id="logo">
         <a href=" /index.html">
-            <img src="/theme/icon/logo.png" alt="">
+            <img width="200" src="/resources/logo/tgo.png" alt="">
         </a>
         <b></b>
     </div>
@@ -221,7 +222,7 @@
                                     time: 1500,
                                 }, () => {
                                     // console.log("提示结束，我就执行");
-                                    $(location).prop('href', "loginUser/backstageIndex")
+                                    $(location).prop('href', "loginUser/backstageIndex/user")
                                 });
                         break;
                     case "918" :

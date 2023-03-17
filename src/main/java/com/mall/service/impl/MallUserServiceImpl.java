@@ -8,13 +8,11 @@ import com.mall.entity.MallUser;
 import com.mall.mapper.MallRoleMapper;
 import com.mall.mapper.MallUserMapper;
 import com.mall.service.MallUserService;
+import org.apache.shiro.crypto.hash.Md5Hash;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * (MallUser)表服务实现类
@@ -72,40 +70,59 @@ public class MallUserServiceImpl implements MallUserService {
      * @return {@link Integer}
      */
     @Override
+
     public Boolean register(MallUser mallUser) {
         mallUser.setMallUserRegisterTime(new Date());
         mallUser.setMallUserState(1);
+        Md5Hash md5Hash = new Md5Hash(mallUser.getMallPassword(), "mall", 1024);
+        mallUser.setMallPassword(md5Hash.toString());
         int insert = mallUserMapper.insert(mallUser);
-        Integer integer = mallRoleMapper.insertUserAndRole(insert, 5);
+        Integer integer = mallRoleMapper.insertUserAndRole(mallUser.getMallUserId(), 5);
         return insert > 0 && integer > 0;
     }
 
     /**
      * 查询所有商城用户
      *
-     * @param mallUser 商城用户
-     * @return {@link List}<{@link MallUser}>
+     * @param role     角色
+     * @param pageNum  页面num
+     * @param pageSize 页面大小
+     * @param field    场
+     * @return {@link Map}<{@link String}, {@link Object}>
      */
     @Override
-    public Map<String, Object> queryAllMallUser(String role, Integer pageNum, Integer pageSize, MallUser mallUser) {
+    public Map<String, Object> queryAllMallUser(String role, Integer pageNum, Integer pageSize, String field) {
+        QueryWrapper<MallUser> queryWrapper = new QueryWrapper<>();
+        queryWrapper.like(StringUtils.isNotBlank(field), "mall_username", field).or().like(StringUtils.isNotBlank(field), "mall_user_phone", field).or().like(StringUtils.isNotBlank(field), "mall_nick_name", field);
+        queryWrapper.like(StringUtils.isNotBlank(role), "mall_role_name", role);
         Page<MallUser> page = new Page<>(pageNum, pageSize);
-        QueryWrapper<MallUser> wrapper = new QueryWrapper<>();
-        if (mallUser != null) {
-            if (mallUser.getMallNickName() != null) {
-                wrapper.like(StringUtils.isNotBlank(mallUser.getMallNickName()), "mall_username", mallUser.getMallNickName())
-                        .or().like(StringUtils.isNotBlank(mallUser.getMallNickName()), "mall_nick_name", mallUser.getMallNickName());
+        List<MallUser> mallUsers = mallUserMapper.selectAllByPage(page, queryWrapper);
+        List<MallUser> mallUserList = new ArrayList<>();
+        mallUsers.stream().forEach(p -> {
+            if (!mallUserList.contains(p)) {
+                mallUserList.add(p);
             }
-        }
-        List<MallUser> mallUsers = mallUserMapper.queryAllMallUser(page, wrapper);
+        });
         Map<String, Object> map = new HashMap<>();
-        map.put("rows", mallUsers);
+        map.put("rows", mallUserList);
         map.put("total", page.getTotal());
         return map;
     }
 
     public Map<String, Object> selectAll(Integer pageNum, Integer pageSize) {
         Page<MallUser> page = new Page<>(pageNum, pageSize);
-        Page<MallUser> mallUserPage = mallUserMapper.selectPage(page, null);
+        Page<MallUser> mallUserPage = null;
+        QueryWrapper<MallUser> queryWrapper = new QueryWrapper<>();
+        switch ("e") {
+            case "admin":
+                break;
+            case "user":
+                // queryWrapper
+                break;
+            case "all":
+                mallUserPage = mallUserMapper.selectPage(page, queryWrapper);
+                break;
+        }
         mallUserPage.getRecords().forEach(s -> {
             s.setMallRoleList(mallRoleMapper.queryAllRolesByUserId(s.getMallUserId()));
         });

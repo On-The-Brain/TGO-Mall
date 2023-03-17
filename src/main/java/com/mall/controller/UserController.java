@@ -1,6 +1,5 @@
 package com.mall.controller;
 
-import com.mall.entity.MallUser;
 import com.mall.service.MallUserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -44,8 +43,11 @@ public class UserController {
     @ApiOperation(value = "获取所有管理员信息", notes = "可以搜索")
     @ApiImplicitParam(name = "mallUser", value = "传递一个对象", required = true)
     @ResponseBody
-    public ResponseEntity<Object> selectAdminManagement(MallUser mallUser, @RequestParam(value = "size") Integer size, @RequestParam(value = "page") Integer page) {
-        Map<String, Object> map = mallUserServiceImpl.selectAll(page, size);
+    public ResponseEntity<Object> selectAdminManagement(@RequestParam(required = false, name = "field") String field,
+                                                        @RequestParam(required = false, name = "role") String role,
+                                                        @RequestParam(value = "size") Integer size,
+                                                        @RequestParam(value = "page") Integer page) {
+        Map<String, Object> map = mallUserServiceImpl.queryAllMallUser(role, page, size, field);
         return ResponseEntity.ok(map);
     }
 

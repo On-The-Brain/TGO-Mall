@@ -51,7 +51,12 @@
     <!--         </if> -->
     <!--     </where> -->
     <!-- </select> -->
-
+    <select id="selectAllByPage" resultMap="MallUserMap">
+        select mall_user.*
+        from mall_user
+                 join mall_user_role mur on mall_user.mall_user_id = mur.mall_user_id
+                 join mall_role mr on mur.mall_role_id = mr.mall_role_id ${ew.customSqlSegment}
+    </select>
 
 </mapper>
 

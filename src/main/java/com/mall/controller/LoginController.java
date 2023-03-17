@@ -3,7 +3,6 @@ package com.mall.controller;
 import com.mall.entity.MallRole;
 import com.mall.entity.MallUser;
 import com.mall.service.MallRoleService;
-import com.mall.service.MallUserService;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
@@ -97,7 +96,7 @@ public class LoginController {
             // 未认证
             code = "403";
             map.put("code", code);
-            map.put("msg", "为经过认证");
+            map.put("msg", "未经过认证");
             return map;
         }
     }
@@ -124,6 +123,10 @@ public class LoginController {
     @GetMapping("/backstageIndex")
     public String index(Model model) {
         return "backstage/index";
+    }
+    @GetMapping("/backstageIndex/user")
+    public String user(Model model) {
+        return "frontDesk/index_fe";
     }
 }
 

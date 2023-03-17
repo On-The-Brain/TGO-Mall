@@ -8,7 +8,6 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.mall.entity.MallUser;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -41,9 +40,8 @@ public interface MallUserMapper extends BaseMapper<MallUser> {
      * @return {@link List}<{@link MallUser}>
      */
 
-    @Select("select mu.* from mall_user mu join mall_user_role mur on mu.mall_user_id = mur.mall_user_id join mall_role mr on mur.mall_role_id = mr.mall_role_id where"
-            +" mr.mall_role_name like '%Admin%' ${ew.customSqlSegment}")
-    List<MallUser> queryAllMallUser(@Param("page") Page<MallUser> page,@Param(Constants.WRAPPER) QueryWrapper<MallUser> queryWrapper);
+
+    List<MallUser> selectAllByPage(@Param("page") Page<MallUser> page, @Param(Constants.WRAPPER) QueryWrapper<MallUser> queryWrapper);
 
 
 }

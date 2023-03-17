@@ -46,10 +46,13 @@ public interface MallUserService {
     /**
      * 查询所有商城用户
      *
-     * @param mallUser 商城用户
-     * @return {@link List}<{@link MallUser}>
+     * @param role     角色
+     * @param pageNum  页面num
+     * @param pageSize 页面大小
+     * @param field    场
+     * @return {@link Map}<{@link String}, {@link Object}>
      */
-    Map<String, Object> queryAllMallUser(String role,Integer pageNum, Integer pageSize, MallUser mallUser);
+    Map<String, Object> queryAllMallUser(String role, Integer pageNum, Integer pageSize, String field);
      Map<String, Object> selectAll(Integer pageNum, Integer pageSize);
 
 }

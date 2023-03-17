@@ -52,26 +52,21 @@ class MallRoleServiceImplTest {
         System.out.println(map);
     }
 
-    @Test
-    void selectByListPage() {
-        MallUser mallUser = new MallUser();
-        Page<MallUser> page = new Page<>(1, 6);
-        QueryWrapper<MallUser> wrapper = new QueryWrapper<>();
-        if (mallUser != null) {
-            if (mallUser.getMallNickName() != null) {
-                wrapper.like(StringUtils.isNotBlank(mallUser.getMallNickName()), "mall_username", mallUser.getMallNickName())
-                        .or().like(StringUtils.isNotBlank(mallUser.getMallNickName()), "mall_nick_name", mallUser.getMallNickName());
-            }
-        }
-        List<MallUser> mallUsers = mallUserMapper.queryAllMallUser(page, wrapper);
-        Map<String, Object> map = new HashMap<>();
-        map.put("rows", mallUsers);
-        map.put("total", page.getTotal());
-
-        System.out.println("map = " + map);
-        // System.out.println("mallUser1 ============================================ " + mallUsers);
-
-    }
+    // @Test
+    // void selectByListPage() {
+    //     MallUser mallUser = new MallUser();
+    //     Page<MallUser> page = new Page<>(1, 6);
+    //     QueryWrapper<MallUser> wrapper = new QueryWrapper<>();
+    //
+    //
+    //     Map<String, Object> map = new HashMap<>();
+    //     map.put("rows", mallUsers);
+    //     map.put("total", page.getTotal());
+    //
+    //     System.out.println("map = " + map);
+    //     // System.out.println("mallUser1 ============================================ " + mallUsers);
+    //
+    // }
 
     @Test
     void queryByField() {

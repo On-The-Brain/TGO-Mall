@@ -17,7 +17,7 @@
     <link href="/resources/css/bootstrap-table.min.css" rel="stylesheet">
     <!--页面样式-->
     <link href="/resources/font-awesome/css/font-awesome.css" rel="stylesheet">
-    <link href="/resources/font-awesome/css/iconfont.css" rel="stylesheet">
+    <link href="/resources/font_albb/iconfont.css" rel="stylesheet">
     <link href="/resources/css/style.css?v=2.2.0" rel="stylesheet">
 </head>
 <style>
@@ -25,8 +25,10 @@
     /*    !*overflow:-Scroll;*!*/
     /*    overflow-y: hidden*/
     /*}*/
+
 </style>
 <body>
+
 <!-- 添加的模态窗口 -->
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
      aria-hidden="true">
@@ -118,6 +120,7 @@
     </div>
 </div>
 
+
 <!-------------------------------->
 <div id="wrapper">
     <div id="page-wrapper" class="gray-bg dashbard-1">
@@ -146,9 +149,29 @@
                                 <!--bootstrap-table自定义工具栏-->
                                 <div class="table-box" style="margin: 20px;">
                                     <div id="toolbar">
-                                        <button onclick="open_add()" type="button" class="btn btn-success">添加权限
-                                        </button>
+                                        <div class="btn-group" role="group"
+                                             aria-label="Button group with nested dropdown">
+                                            <div class="btn-group" role="group">
+                                                <button id="btnGroupDrop1" type="button"
+                                                        class="btn btn-primary dropdown-toggle" data-toggle="dropdown"
+                                                        aria-haspopup="true" aria-expanded="false">
+                                                    查看分类
+                                                </button>
+                                                <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                                                    <a class="dropdown-item" onclick="viewAll()"
+                                                       href="javaScript:void(0);">所有
+                                                        link</a>
+                                                    <a class="dropdown-item" onclick="viewAdmin()"
+                                                       href="javaScript:void(0);">管理员
+                                                        link</a>
+                                                    <a class="dropdown-item" onclick="viewUser()"
+                                                       href="javaScript:void(0);">用户
+                                                        link</a>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
+
                                 </div>
                                 <table id="table" class="table-striped"></table>
                             </div>
@@ -175,93 +198,121 @@
 <script src="/resources/js/plugins/validate/messages_zh.min.js"></script>
 
 <script src="/resources/js/plugins/layer/layer.js"></script>
+<script src="/resources/js/utils.js"></script>
 <script src="/resources/js/plugins/dataTables/popper.min.js"></script>
 <script src="/resources/js/plugins/dataTables/bootstrap4.2.1.min.js"></script>
 <script src="/resources/js/plugins/dataTables/bootstrap-table.min.js"></script>
 
 <script>
     // $("#table").bootstrapTable("destroy");
-    $(`#table`).bootstrapTable({
-        url: "[[@{/user/admin/Management}]]",
-        pagination: true, //获得分页功能
-        smartDisplay: true,
-        toolbar: '#toolbar',    //工具按钮用哪个容器
-        checkbox: true,
-        singleSelect: false, // 设置为true将禁止多选
-        pageNumber: 1,   // 首页页码，默认为1
-        // pageSize: 5, //默认分页数量
-        pageList: [5, 10, 15, 20], //可以选择分页的数量
-        search: true, //获得一个搜索框
-        searchOnEnterkey: false, //回车执行搜索
-        paginationLoop: true,//是否开启分页条无限循环
-        striped: true, //开启斑马线
-        sortable: true,      //是否启用排序
-        sortOrder: "asc",    //排序方式
-        clickToSelect: true, //是否启用点击选中行
-        showColumns: true, //获得一个能选择显示某些列的按钮
-        showRefresh: true, //获得一个刷新数据按钮
-        sidePagination: 'server',//服务端处理分页
-        locale: 'zh-CN',//中文支持,
-        buttonsPrefix: 'btn btn-primary',
-        queryParams: function (params) {// 上传服务器的参数
-            return {// 如果是在服务器端实现分页，limit、offset这两个参数是必须的
-                size: params.limit,
-                page: (params.offset / params.limit) + 1,
-                // 获取收缩框的内容
-                field: $(".search-input").val()
-            };
-        }, columns: [
-            {
-                checkbox: true
-            },
-            {
-                field: "mallUserId",
-                title: "用户id"
-            },
-            {
-                field: "mallUsername",
-                title: "用户名"
-            },
-            {
-                field: "mallNickName",
-                title: "用户昵称"
-            }
-            ,
-            {
-                field: "mallUserSex",
-                title: "性别"
-            },
-            {
-                field: "mallUserBirthday",
-                title: "生日"
-            },
-            {
-                field: "mallUserImages",
-                title: "头像"
-            },
-            {
-                field: "mallUserPhone",
-                title: "手机号"
-            },
-            {
-                field: "mallUserState",
-                title: "账户状态"
-            },
-            {
-                field: "mallRoleList",
-                title: "角色列表"
-            }, {
-                field: '#',
-                title: '操作',
-                align: 'center',
-                formatter: function (value, row, index) {
-                    return "<a href='javascript:;' onclick='openUpdate(\"" + index + "\")'><i style='margin-right: 20px' title='权限修改' class=\"iconfont icon-xiugai\"></i></a>" +
-                            "<a href='javascript:;' onclick='deleteInfo(\"" + index + "\")'><i style='margin-right: 10px' title='删除' class=\"iconfont icon-shanchu\"></i></a>"
-                }
-            }
-        ],
-    })
 
+    dataForm("[[@{/user/admin/Management}]]")
+
+    function dataForm(path) {
+        $(`#table`).bootstrapTable({
+            url: path,
+            pagination: true, //获得分页功能
+            smartDisplay: true,
+            toolbar: '#toolbar',    //工具按钮用哪个容器
+            checkbox: true,
+            singleSelect: false, // 设置为true将禁止多选
+            pageNumber: 1,   // 首页页码，默认为1
+            pageSize: 10, //默认分页数量
+            pageList: [5, 10, 15, 20], //可以选择分页的数量
+            search: true, //获得一个搜索框
+            searchOnEnterkey: false, //回车执行搜索
+            paginationLoop: true,//是否开启分页条无限循环
+            striped: true, //开启斑马线
+            sortable: true,      //是否启用排序
+            sortOrder: "asc",    //排序方式
+            clickToSelect: true, //是否启用点击选中行
+            showColumns: true, //获得一个能选择显示某些列的按钮
+            showRefresh: true, //获得一个刷新数据按钮
+            sidePagination: 'server',//服务端处理分页
+            locale: 'zh-CN',//中文支持,
+            buttonsPrefix: 'btn btn-primary',
+            queryParams: function (params) {// 上传服务器的参数
+                return {// 如果是在服务器端实现分页，limit、offset这两个参数是必须的
+                    size: params.limit,
+                    page: (params.offset / params.limit) + 1,
+                    // 获取收缩框的内容
+                    field: $(".search-input").val()
+                };
+            }, columns: [
+                {
+                    checkbox: true
+                },
+                {
+                    field: "mallUserId",
+                    title: "用户id"
+                },
+                {
+                    field: "mallUsername",
+                    title: "用户名"
+                },
+                {
+                    field: "mallNickName",
+                    title: "用户昵称"
+                },
+                {
+                    field: "mallUserImages",
+                    title: "头像",
+                    formatter: imagesShow
+                },
+                {
+                    field: "mallUserSex",
+                    title: "性别",
+                    formatter: statSwitch
+                },
+                {
+                    field: "mallUserBirthday",
+                    title: "生日",
+                    formatter: timeFormatting
+                },
+
+                {
+                    field: "mallUserPhone",
+                    title: "手机号"
+                },
+                {
+                    field: "mallUserState",
+                    title: "账户状态",
+                    formatter: function (value, row, index) {
+                        var dataSel = $('#table').bootstrapTable('getData')[index];
+                        var str = '';
+                        switch (dataSel.mallUserState) {
+                            case null:
+                                str = "---"
+                                break
+                            case 1:
+                                str = "启用"
+                                break;
+                            case -1:
+                                str = "注销"
+                                break;
+                            case 0:
+                                str = "禁用"
+                                break;
+                        }
+                        return str;
+                    }
+                },
+                {
+                    field: "mallRoleList",
+                    title: "角色列表",
+                    formatter: roleList
+                }, {
+                    field: '#',
+                    title: '操作',
+                    align: 'center',
+                    formatter: function (value, row, index) {
+                        return "<a href='javascript:;' onclick='openUpdate(\"" + index + "\")'><i style='margin-right: 20px' title='权限修改' class=\"iconfont icon-xiugai\"></i></a>" +
+                                "<a href='javascript:;' onclick='deleteInfo(\"" + index + "\")'><i style='margin-right: 10px' title='删除' class=\"iconfont icon-shanchu\"></i></a>"
+                    }
+                }
+            ],
+        })
+    }
 
     // 打开模态框并清楚
     // function open_add() {
@@ -497,6 +548,93 @@
     //         // console.log(error)
     //     });
     // }
+
+    function roleList(value, row, index) {
+        var dataSel = $('#table').bootstrapTable('getData')[index];
+        // 获取角色数量
+        var selec
+        $("#lengthRole").text($("#table").bootstrapTable("getOptions").totalRows)
+        var str = '<select id="` + mallUserId + `" onchange="selectchange(` + row.id + `)"  class="input-sm form-control input-s-sm inline">';
+        for (let i = 0; i < Object.keys(dataSel.mallRoleList).length; i++) {
+            var op = $('#table').bootstrapTable('getData')[index].mallRoleList[i];
+            if (i == 0) {
+                str += `<option  id="" selected  disabled value="` + op.mallRoleId + `">` + op.mallRoleDescription + `</option>`
+            } else {
+                str += `<option  id=""   disabled value="` + op.mallRoleId + `">` + op.mallRoleDescription + `</option>`
+            }
+        }
+
+        str += '</select>';
+
+        return str;
+    }
+
+    /**
+     * 头像显示
+     * @param value
+     * @param row
+     * @param index
+     */
+    function imagesShow(value, row, index) {
+        var dataSel = $('#table').bootstrapTable('getData')[index];
+        var str =
+                '<figure style="width: 50px;height: 50px;">' +
+                '<figcaption></figcaption>' +
+                '<img class="img-responsive"  style="padding: 0!important; width: 80px;height:70px" ' +
+                'src="[[@{/resources/user_img/}]]' + dataSel.mallUserImages + '" alt="' + dataSel.mallUserImages + '"/>' +
+                '</figure>'
+        return str;
+    }
+
+    /**
+     * 日期格式化
+     * @param value
+     * @param row
+     * @param index
+     */
+    function timeFormatting(value, row, index) {
+        var dataSel = $('#table').bootstrapTable('getData')[index];
+        return formatDate(new Date(dataSel.mallUserBirthday), "yyyy-MM-dd");
+    }
+
+    /**
+     * 性别格式化
+     * @param value
+     * @param row
+     * @param index
+     * @returns {string}
+     */
+    function statSwitch(value, row, index) {
+        var dataSel = $('#table').bootstrapTable('getData')[index];
+        var str = '';
+        switch (dataSel.mallUserState) {
+            case null:
+                str = "---"
+                break
+            case 1:
+                str = "男"
+                break;
+            case 0:
+                str = "女"
+                break;
+        }
+        return str;
+    }
+
+    // 用户
+    function viewUser() {
+        $("#table").bootstrapTable('refresh', {url: "[[@{/user/admin/Management/?role=user}]]"});
+    }
+
+    // 管理员
+    function viewAdmin() {
+        $("#table").bootstrapTable('refresh', {url: "[[@{/user/admin/Management/?role=Admin}]]"});
+    }
+
+    // 所有
+    function viewAll() {
+        $("#table").bootstrapTable('refresh', {url: "[[@{/user/admin/Management}]]"});
+    }
 </script>
 
 <#--验证规则-->

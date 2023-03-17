@@ -1,0 +1,23 @@
+                         ${AnsiColor.BRIGHT_CYAN}    ,;'  ;;            .;' ,,,,,,,,  ,,   ,,,,,,,,,,,,  ,,,,,,;;,,,,,,    ,
+                         ${AnsiColor.BRIGHT_CYAN}      ,::'  ;;,,,,,,,,   ,;',; ::    ::   ';, ,,,;;,,;;,,,     ,,,,,,,,      :::
+                         ${AnsiColor.BRIGHT_CYAN} ;;'::  ;;'  :: ,;'  ;;',;' ::''''::  ,,   :: ::  :: ::     ;;,,,,;;      :::
+                         ${AnsiColor.BRIGHT_CYAN}      ::       ::  .    ,;;;  ::,,,,;;   ';, ''''''''''''  ,,,,,,,,,,,,,,   :::
+                         ${AnsiColor.BRIGHT_CYAN}   ::  ,:'  ::  ':. '' ::  :: ;,        ,   ''''''''    ;;  ,,,,,,  ;;   :::
+                         ${AnsiColor.BRIGHT_CYAN}     ::  ;'   ::   ';    ::  ::  ;,;'    ;' ''''';;'''''      ::  ::        :
+                         ${AnsiColor.BRIGHT_CYAN}       ::     ,,::         ::  :: ;;;,   ,;;   ;;' :: ';,       ;;  ::        ,
+                         ${AnsiColor.BRIGHT_CYAN}      ;;      ';;         ;;  ;;'   ';,.         ';;       .,;;'   ';;,..;  ';'
+                         ${AnsiColor.BRIGHT_CYAN}
+                         ${AnsiColor.BRIGHT_CYAN}                             You're very pretty! (Chinese: nǐ hěn piāo liàng)
+                         ${AnsiColor.BRIGHT_CYAN}
+                         ${AnsiColor.BRIGHT_CYAN}
+                         ${AnsiColor.BRIGHT_CYAN}$
+                         ${AnsiColor.BRIGHT_CYAN}
+                         ${AnsiColor.BRIGHT_CYAN}
+                         ${AnsiColor.BRIGHT_CYAN}
+                         ${AnsiColor.BRIGHT_CYAN}
+                         ${AnsiColor.BRIGHT_CYAN}
+                         ${AnsiColor.BRIGHT_CYAN}
+                         ${AnsiColor.BRIGHT_CYAN}
+                         ${AnsiColor.BRIGHT_CYAN}
+                         ${AnsiColor.BRIGHT_CYAN}
+                                              ${AnsiColor.BRIGHT_CYAN}Spring Boot: ${spring-boot.formatted-version}

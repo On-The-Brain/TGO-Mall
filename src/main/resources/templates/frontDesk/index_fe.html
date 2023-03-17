@@ -15,7 +15,7 @@
             cursor:pointer;
         }
     </style>
-    <link rel="shortcut icon" type="image/x-icon" href="/theme/icon/favicon.ico">
+    <link rel="shortcut icon" href="/resources/logo/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" type="text/css" href="/theme/css/base.css">
     <link rel="stylesheet" type="text/css" href="/theme/css/home.css">
     <link href="/resources/js/plugins/layer/mobile/need/layer.css" rel="stylesheet">
@@ -105,7 +105,7 @@
         </div>
     </div>
     <div class="container clearfix">
-        <div class="header-logo fl"><h1><a href="首页.html"><img src="/theme/icon/logo.png"></a></h1></div>
+        <div class="header-logo fl"><h1><a href="首页.html"><img style="width: 200px" src="/resources/logo/tgo.png"></a></h1></div>
         <div class="head-form fl">
             <form class="clearfix">
                 <input type="text" class="search-text" accesskey="" id="key" autocomplete="off" placeholder="洗衣机">
@@ -421,10 +421,10 @@
             method: "get",
         }).then(function (response) {
             var res = response.data.data;
-            console.log(res)
+            console.log(res.mallProductId)
             for (let i = 0; i < res.length; i++) {
                 var str = ' <li style="width:230px;height: 270px;background-color: #d5d4d4">' +
-                        ' <a href=""> <img style="width:140px;height: 140px" src="/images/' + res[i].productImgList[0].productImgPath + '"></a>' +
+                        ' <a class="openANewPage" href="/mallProduct/messageOne/'+res[i].mallProductId+'" target="_blank"> <img style="width:140px;height: 140px" src="/images/' + res[i].productImgList[0].productImgPath + '"></a>' +
                         ' <p class="head-name"><a href="">' + res[i].mallProductTitle +
                         '</a> </p>\n' +
                         ' <p><span class="price">' + res[i].mallProductPrice + '</span></p>\n' +

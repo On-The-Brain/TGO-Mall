@@ -33,5 +33,11 @@ public class MallProductImg implements Serializable {
      */
     @TableField(value = "product_parallelism")
     private String productParallelism;
+
+    /**
+     * 产品介绍
+     */
+    @TableField(value = "product_introduce")
+    private String productIntroduce;
 }
 

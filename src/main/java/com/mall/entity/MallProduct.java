@@ -61,6 +61,12 @@ public class MallProduct implements Serializable {
      */
     @TableField(value = "mall_discount")
     private Double mallDiscount;
+
+    /**
+     * 商城产品销量
+     */
+    @TableField(value = "mall_product_sales_volume")
+    private Integer mallProductSalesVolume;
     @TableField(exist = false)
     private List<MallProductImg> productImgList;
 

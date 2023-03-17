@@ -14,6 +14,7 @@
         <result property="mallProductSort" column="mall_product_sort" jdbcType="INTEGER"/>
         <result property="mallNatureOfGoods" column="mall_natureOfGoods" jdbcType="VARCHAR"/>
         <result property="mallDiscount" column="mall_discount" jdbcType="VARCHAR"/>
+        <result property="mallProductSalesVolume" column="mall_product_sales_volume" jdbcType="VARCHAR"/>
         <collection property="productImgList"
                     ofType="com.mall.entity.MallProductImg">
             <id property="productImgId" column="product_img_id"/>

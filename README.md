@@ -1,6 +1,8 @@
 # 工程简介
 
 # 延伸阅读
+Hello, [[${user.name}]]!   //[[]]写法会html转义
+Hello, [(${user.name})]!   //[()]写法不会html转义
 
 //只返回200
 ResponseEntity<ErrorResult> response = ResponseEntity.ok(null);

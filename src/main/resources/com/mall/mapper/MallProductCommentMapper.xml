@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mall.mapper.MallProductCommentMapper">
+
+    <resultMap id="CommentResultMap" type="com.mall.entity.MallProductComment">
+        <id property="commentId" column="comment_id" jdbcType="BIGINT"/>
+        <result property="mallProductId" column="mall_product_id" jdbcType="VARCHAR"/>
+        <result property="mallUserId" column="mall_user_id" jdbcType="INTEGER"/>
+        <result property="commentContent" column="comment_content" jdbcType="VARCHAR"/>
+        <result property="commentStatus" column="comment_status" jdbcType="TINYINT"/>
+        <result property="commentCreated" column="comment_created" jdbcType="TIMESTAMP"/>
+        <result property="commentProductStarlevel" column="comment_product_starLevel" jdbcType="TINYINT"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        comment_id,mall_product_id,mall_user_id,
+        comment_content,comment_status,comment_created,
+        comment_product_starLevel
+    </sql>
+</mapper>

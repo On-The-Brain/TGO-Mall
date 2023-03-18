@@ -44,5 +44,9 @@ public interface MallUserMapper extends BaseMapper<MallUser> {
     List<MallUser> selectAllByPage(@Param("page") Page<MallUser> page, @Param(Constants.WRAPPER) QueryWrapper<MallUser> queryWrapper);
 
 
+    Integer deleteUserRole(@Param("userId") Integer roleId, @Param("list") List<Integer> list);
+
+    Integer insertUserRole(@Param("userId") Integer mallRoleId, @Param("list") List list);
+
 }
 

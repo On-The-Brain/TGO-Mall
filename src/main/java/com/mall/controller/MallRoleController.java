@@ -4,7 +4,7 @@ import com.mall.entity.MallPermission;
 import com.mall.entity.MallRole;
 import com.mall.service.MallPermissionService;
 import com.mall.service.MallRoleService;
-import com.mall.util.Constants;
+import com.mall.util.ResponseData;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -140,6 +140,18 @@ public class MallRoleController {
         int method = Integer.parseInt(map.get("method") + "");
         List<Integer> permissionsList = (List<Integer>) map.get("permissionsList");
         return ResponseEntity.ok(this.mallRoleService.updateRole(roleId, permissionsList, method));
+    }
+
+    /**
+     * 角色列表
+     *
+     * @return {@link ResponseData}<{@link Object}>
+     */
+    @GetMapping("message/one")
+    @ResponseBody
+    public ResponseData<Object> mallRoleList() {
+        List<MallRole> list = mallRoleService.list();
+        return ResponseData.success(list);
     }
 }
 

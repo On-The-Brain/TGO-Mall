@@ -58,5 +58,20 @@
                  join mall_role mr on mur.mall_role_id = mr.mall_role_id ${ew.customSqlSegment}
     </select>
 
+
+    <delete id="deleteUserRole">
+        delete from mall_user_role where mall_user_id=#{userId}
+        and mall_role_id in
+        <foreach collection="list" open="(" close=")" separator="," item="id">
+            #{id}
+        </foreach>
+    </delete>
+    <insert id="insertUserRole">
+        insert into mall_user_role (mall_user_id, mall_role_id) VALUES
+        <foreach collection="list" index="inx" separator=",">
+            (#{userId}, #{list[${inx}]})
+        </foreach>
+    </insert>
+
 </mapper>
 

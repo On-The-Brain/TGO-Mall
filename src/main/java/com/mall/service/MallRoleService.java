@@ -1,6 +1,7 @@
 package com.mall.service;
 
 
+import com.baomidou.mybatisplus.extension.service.IService;
 import com.mall.entity.MallRole;
 
 import java.util.List;
@@ -12,7 +13,7 @@ import java.util.Map;
  * @author makejava
  * @since 2023-02-17 16:07:38
  */
-public interface MallRoleService {
+public interface MallRoleService extends IService<MallRole> {
 
     List<MallRole> queryAllAdminRole();
 

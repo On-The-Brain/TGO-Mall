@@ -3,9 +3,7 @@ package com.mall.shiro;
 import com.mall.entity.MallPermission;
 import com.mall.entity.MallRole;
 import com.mall.entity.MallUser;
-import com.mall.service.MallPermissionService;
 import com.mall.service.MallUserService;
-import com.mall.service.impl.MallUserServiceImpl;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
@@ -13,7 +11,6 @@ import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.subject.Subject;
-import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import java.util.List;

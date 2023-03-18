@@ -1,5 +1,6 @@
 package com.mall.service;
 
+import com.baomidou.mybatisplus.extension.service.IService;
 import com.mall.entity.MallRole;
 import com.mall.entity.MallUser;
 
@@ -14,7 +15,7 @@ import java.util.Map;
  * @since 2023-02-17 16:07:37
  */
 // @Service
-public interface MallUserService {
+public interface MallUserService extends IService<MallUser> {
 
     /**
      * 登录
@@ -41,7 +42,7 @@ public interface MallUserService {
      */
     boolean queryUserByName(String mallNickName);
 
-    public Boolean register(MallUser mallUser);
+    Boolean register(MallUser mallUser);
 
     /**
      * 查询所有商城用户
@@ -53,6 +54,5 @@ public interface MallUserService {
      * @return {@link Map}<{@link String}, {@link Object}>
      */
     Map<String, Object> queryAllMallUser(String role, Integer pageNum, Integer pageSize, String field);
-     Map<String, Object> selectAll(Integer pageNum, Integer pageSize);
-
+    Integer updateUserRole(Integer userId, List<Integer> list, Integer start);
 }

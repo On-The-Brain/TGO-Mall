@@ -227,7 +227,7 @@
                 formatter: function (value, row, index) {
                     console.log(row)
                     return "<a href='javascript:;' onclick='roleUpdate(\"" + index + "\")'><i style='margin-right: 20px' title='权限修改' class=\"iconfont icon-xiugai\"></i></a>" +
-                            "<a href='javascript:;' onclick='deleteRole(\"" + index + "\")'><i style='margin-right: 10px' title='删除' class=\"iconfont icon-shanchu\"></i></a>"
+                            "<a href='javascript:;' onclick='deleteRole(\"" + index + "\")'><i style='margin-right: 10px' title='禁用' class=\"iconfont icon-shanchu\"></i></a>"
                 }
                 // fa-gear (alias)
                 // $("#table").bootstrapTable('showColumn', 'ShopName');
@@ -350,7 +350,7 @@
                 body.contents().find("#roleId").val(mallRoll.mallRoleId)
             },
             end:function () {
-                window.parent.location.reload();
+                $('#table').bootstrapTable('refresh');
             }
         })
 

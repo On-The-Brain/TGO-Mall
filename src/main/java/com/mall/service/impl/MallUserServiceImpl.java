@@ -3,6 +3,7 @@ package com.mall.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.mall.entity.MallRole;
 import com.mall.entity.MallUser;
 import com.mall.mapper.MallRoleMapper;
@@ -10,6 +11,7 @@ import com.mall.mapper.MallUserMapper;
 import com.mall.service.MallUserService;
 import org.apache.shiro.crypto.hash.Md5Hash;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.*;
@@ -21,7 +23,7 @@ import java.util.*;
  * @since 2023-02-17 16:07:38
  */
 @Service("mallUserServiceImpl")
-public class MallUserServiceImpl implements MallUserService {
+public class MallUserServiceImpl extends ServiceImpl<MallUserMapper, MallUser> implements MallUserService {
 
     // private final Logger logger = LoggerFactory.getLogger(MallUserServiceImpl.class);
     @Resource
@@ -109,27 +111,16 @@ public class MallUserServiceImpl implements MallUserService {
         return map;
     }
 
-    public Map<String, Object> selectAll(Integer pageNum, Integer pageSize) {
-        Page<MallUser> page = new Page<>(pageNum, pageSize);
-        Page<MallUser> mallUserPage = null;
-        QueryWrapper<MallUser> queryWrapper = new QueryWrapper<>();
-        switch ("e") {
-            case "admin":
-                break;
-            case "user":
-                // queryWrapper
-                break;
-            case "all":
-                mallUserPage = mallUserMapper.selectPage(page, queryWrapper);
-                break;
+    @Transactional
+    @Override
+    public Integer updateUserRole(Integer userId, List<Integer> list, Integer start) {
+        Integer integer;
+        if (start == 1) {
+            integer = mallUserMapper.insertUserRole(userId, list);
+        } else {
+            integer = mallUserMapper.deleteUserRole(userId, list);
         }
-        mallUserPage.getRecords().forEach(s -> {
-            s.setMallRoleList(mallRoleMapper.queryAllRolesByUserId(s.getMallUserId()));
-        });
-        Map<String, Object> map = new HashMap<>();
-        map.put("rows", mallUserPage.getRecords());
-        map.put("total", page.getTotal());
-        return map;
+        return integer;
     }
 
 }

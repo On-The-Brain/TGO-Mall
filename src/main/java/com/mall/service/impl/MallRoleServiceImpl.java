@@ -2,6 +2,7 @@ package com.mall.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.mall.entity.MallRole;
 import com.mall.mapper.MallRoleMapper;
 import com.mall.service.MallRoleService;
@@ -21,7 +22,7 @@ import java.util.Map;
  * @since 2023-02-17 16:07:38
  */
 @Service("mallRoleService")
-public class MallRoleServiceImpl implements MallRoleService {
+public class MallRoleServiceImpl extends ServiceImpl<MallRoleMapper, MallRole> implements MallRoleService {
     @Resource
     private MallRoleMapper mallRoleMapper;
 

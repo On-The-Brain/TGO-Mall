@@ -121,7 +121,7 @@ public class LoginController {
     }
 
     @GetMapping("/backstageIndex")
-    public String index(Model model) {
+    public String index() {
         return "backstage/index";
     }
     @GetMapping("/backstageIndex/user")

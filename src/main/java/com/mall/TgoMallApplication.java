@@ -15,7 +15,7 @@ public class TgoMallApplication {
         try {
             InetAddress addr = InetAddress.getLocalHost();
             System.out.println("Local HostAddress: "+addr.getHostAddress());
-            Runtime.getRuntime().exec("cmd   /c   start   http://"+addr.getHostAddress()+":8080/");//可以指定自己的路径
+            Runtime.getRuntime().exec("cmd   /c   start   http://"+addr.getHostAddress()+":8082/");//可以指定自己的路径
             log.info("---------------------------------------------------");
             log.info("\n访问地址："+"http://"+addr.getHostAddress()+":8080/");
             log.info("---------------------------------------------------");

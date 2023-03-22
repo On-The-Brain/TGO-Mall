@@ -1,23 +1,17 @@
 package com.mall.service.impl;
 
-import cn.hutool.core.util.RandomUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.toolkit.StringUtils;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.mall.entity.MallProduct;
-import com.mall.entity.MallUser;
-import com.mall.entity.vo.MallProductVo;
+import com.mall.entity.MallRole;
 import com.mall.mapper.MallProductImgMapper;
 import com.mall.mapper.MallProductMapper;
-import com.mall.mapper.MallUserMapper;
 import com.mall.service.MallProductService;
 import com.mall.service.MallRoleService;
-import com.mall.service.MallUserService;
+import com.mall.service.UserService;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import javax.annotation.Resource;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -34,9 +28,7 @@ class MallRoleServiceImplTest {
     @Resource
     MallRoleService mallRoleService;
     @Resource
-    MallUserService mallUserServiceImpl;
-    @Resource
-    MallUserMapper mallUserMapper;
+    UserService userService;
     @Resource
     MallProductImgMapper mallProductImgMapper;
     @Resource
@@ -72,7 +64,8 @@ class MallRoleServiceImplTest {
     void queryByField() {
         // List<MallProductVo> mallProductVos = mallProductService.selectHotSellingArea();
         // mallProductVos.forEach(System.out::println);
-
+        List<MallRole> mallRoles = mallRoleService.queryAllAdminRole();
+        System.out.println("mallRoles = " + mallRoles);
     }
 
     @Test

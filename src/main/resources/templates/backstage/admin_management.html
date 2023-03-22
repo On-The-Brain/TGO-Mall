@@ -20,6 +20,7 @@
     <link href="/resources/font_albb/iconfont.css" rel="stylesheet">
     <link href="/resources/css/style.css?v=2.2.0" rel="stylesheet">
     <link href="/resources/css/animate.css" rel="stylesheet">
+    <link rel="stylesheet" href="/resources/MyProject-master/css/city-picker.css">
 </head>
 <style>
     /*body {*/
@@ -144,6 +145,8 @@
 <script src="/resources/js/plugins/validate/validate-methods.js"></script>
 <script src="/resources/js/plugins/validate/messages_zh.min.js"></script>
 <script src="/resources/js/plugins/layer/layer.js"></script>
+<script src="/resources/MyProject-master/js/city-picker.data.js"></script>
+<script src="/resources/MyProject-master/js/city-picker.js"></script>
 <script src="/resources/js/utils.js"></script>
 <script src="/resources/js/plugins/dataTables/popper.min.js"></script>
 <script src="/resources/js/plugins/dataTables/bootstrap4.2.1.min.js"></script>
@@ -190,59 +193,45 @@
                     checkbox: true
                 },
                 {
-                    field: "mallUserId",
+                    field: "userId",
                     title: "用户id"
                 },
                 {
-                    field: "mallUsername",
+                    field: "userName",
                     title: "用户名"
                 },
                 {
-                    field: "mallNickName",
+                    field: "userNickname",
                     title: "用户昵称"
                 },
                 {
-                    field: "mallUserImages",
+                    field: "userProfilePictureSrc",
                     title: "头像",
                     formatter: imagesShow
                 },
                 {
-                    field: "mallUserSex",
+                    field: "userRealname",
+                    title: "真实姓名",
+                },
+                {
+                    field: "userGender",
                     title: "性别",
                     formatter: statSwitch
                 },
                 {
-                    field: "mallUserBirthday",
+                    field: "userBirthday",
                     title: "生日",
                     formatter: timeFormatting
                 },
-
                 {
-                    field: "mallUserPhone",
-                    title: "手机号"
+                    field: "userHomeplace",
+                    title: "籍贯",
+                    formatter: nativePlaceFormatting
                 },
                 {
-                    field: "mallUserState",
-                    title: "账户状态",
-                    formatter: function (value, row, index) {
-                        var dataSel = $('#table').bootstrapTable('getData')[index];
-                        var str = '';
-                        switch (dataSel.mallUserState) {
-                            case null:
-                                str = "---"
-                                break
-                            case 1:
-                                str = "启用"
-                                break;
-                            case -1:
-                                str = "注销"
-                                break;
-                            case 0:
-                                str = "禁用"
-                                break;
-                        }
-                        return str;
-                    }
+                    field: "userAddress",
+                    title: "用户地址",
+                    formatter: nativePlaceFormatting
                 },
                 {
                     field: "mallRoleList",
@@ -292,7 +281,7 @@
                 '<figure style="width: 50px;height: 50px;">' +
                 '<figcaption></figcaption>' +
                 '<img class="img-responsive"  style="padding: 0!important; width: 80px;height:70px" ' +
-                'src="[[@{/resources/user_img/}]]' + dataSel.mallUserImages + '" alt="' + dataSel.mallUserImages + '"/>' +
+                'src="[[@{/foregroundPicture/item/adminProfilePicture/}]]' + dataSel.userProfilePictureSrc + '" alt="' + dataSel.userProfilePictureSrc + '"/>' +
                 '</figure>'
         return str;
     }
@@ -305,7 +294,7 @@
      */
     function timeFormatting(value, row, index) {
         var dataSel = $('#table').bootstrapTable('getData')[index];
-        return formatDate(new Date(dataSel.mallUserBirthday), "yyyy-MM-dd");
+        return formatDate(new Date(dataSel.userBirthday), "yyyy-MM-dd");
     }
 
     /**
@@ -328,6 +317,22 @@
             case 0:
                 str = "女"
                 break;
+        }
+        return str;
+    }
+
+    function nativePlaceFormatting(value, row, index) {
+        var dataSel = $('#table').bootstrapTable('getData')[index];
+        var district = getByDistrict(dataSel.userHomeplace);
+        var str = '';
+        if (district[0] != null) {
+            str += district[0]
+            if (district[1] != null) {
+                str += "/" + district[1];
+                if (district[2] != null) {
+                    str += "/" + district[2];
+                }
+            }
         }
         return str;
     }
@@ -369,7 +374,6 @@
             // params: {"mallRoleId": mallRoleId}
         }).then(res => {
             var data = res.data.data;
-
             for (let i = 0; i < data.length; i++) {
                 var cak = null
                 for (let j = 0; j < mallRoleList.length; j++) {
@@ -442,7 +446,7 @@
     function disableUser(index) {
         var mallUserId = $('#table').bootstrapTable('getData')[index].mallUserId;
         axios({
-            url: '[[@{user/admin/Management/}]]'+mallUserId,
+            url: '[[@{user/admin/Management/}]]' + mallUserId,
             method: "delete",
             contentType: 'application/json',
         }).then(function (response) {

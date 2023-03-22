@@ -1,6 +1,7 @@
 package com.mall.config;
 
 // import com.mall.shiro.CustomRolesAuthorizationFilter;
+
 import com.mall.shiro.MallRealm;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
@@ -16,7 +17,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import javax.servlet.Filter;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -40,24 +40,31 @@ public class shiroConfig {
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
         // 引用指定的安全管理器 必须配置
         shiroFilterFactoryBean.setSecurityManager(securityManager);
-        Map<String, String> filterChainDefinitionMap = new LinkedHashMap<String, String>();
+        LinkedHashMap<String, javax.servlet.Filter> filtersMap = new LinkedHashMap<>();
+        Map<String, Filter> filterChainDefinitionMap = new LinkedHashMap<>();
+        filtersMap.put("roles", new RoleFilter());
         // 登录
         shiroFilterFactoryBean.setLoginUrl("/loginUser/start");
         // 首页
         shiroFilterFactoryBean.setSuccessUrl("/index");
         // 错误页面，认证不通过跳转
         shiroFilterFactoryBean.setUnauthorizedUrl("/403");
+        shiroFilterFactoryBean.setFilters(filtersMap);
+
+        Map<String, String> customRoleFiltering = new LinkedHashMap<>();
 
         // shiroFilterFactoryBean.setFilters((Map<String, Filter>) new HashMap<>().put("roles", new CustomRolesAuthorizationFilter()));
         // // 自定义拦截器链
         // // 退出 过滤器
-        // filterChainDefinitionMap.put("/logout", "/loginUser/logout");
         // // 静态资源不做拦截
-        // filterChainDefinitionMap.put("/static/resources/**", "anon");
-        // filterChainDefinitionMap.put("/static/theme/**", "anon");
+        customRoleFiltering.put("/static/resources/**", "anon");
+        customRoleFiltering.put("/static/theme/**", "anon");
         // // 对后台首页接口进行角色权限验证
-        // filterChainDefinitionMap.put("/loginUser/backstageIndex", "authc,user,roles[\"role.superAdmin,role.orderAdministrator,role.commodityManager,role.systemAdmin\"]");
-        shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
+        customRoleFiltering.put("/loginUser/backstageIndex", "authc,roles[role.superAdmin,role.orderAdministrator,role.commodityManager,role.systemAdmin]");
+        customRoleFiltering.put("/mallRole/**", "authc,roles[role.superAdmin,role.orderAdministrator,role.commodityManager,role.systemAdmin]");
+        customRoleFiltering.put("/permission/**", "authc,roles[role.superAdmin,role.orderAdministrator,role.commodityManager,role.systemAdmin]");
+        customRoleFiltering.put("/user/admin/Management", "authc,roles[role.superAdmin,role.orderAdministrator,role.commodityManager,role.systemAdmin]");
+        shiroFilterFactoryBean.setFilterChainDefinitionMap(customRoleFiltering);
         return shiroFilterFactoryBean;
     }
 

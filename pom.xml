@@ -118,6 +118,11 @@
             <artifactId>springfox-boot-starter</artifactId>
             <version>3.0.0</version>
         </dependency>
+        <dependency>
+            <groupId>com.github.alotuser</groupId>
+            <artifactId>httpclients</artifactId>
+            <version>1.7.8</version>
+        </dependency>
 
     </dependencies>
 

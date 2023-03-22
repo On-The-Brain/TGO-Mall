@@ -1,7 +1,7 @@
 package com.mall.controller;
 
 import com.mall.entity.MallRole;
-import com.mall.entity.MallUser;
+import com.mall.entity.User;
 import com.mall.service.MallRoleService;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
@@ -16,6 +16,8 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -49,34 +51,31 @@ public class LoginController {
 
     @PostMapping(value = "/userLogin")
     @ResponseBody
-    public Map<String, Object> login(@RequestBody MallUser mallUser) {
+    public Map<String, Object> login(@RequestBody User user) {
+        String original = user.getUserPassword();
         Map<String, Object> map = new HashMap<>();
         String code = null;
-        System.out.println("mallUser = " + mallUser.getMallUsername());
-        System.out.println("mallUser = " + mallUser.getMallPassword());
-        System.out.println("mallUser = " + mallUser.getRememberMe());
         // 得到一个主题对象:subject代表了当前的"user"用户
         Subject subject = SecurityUtils.getSubject();
         // 密码加密
-        Md5Hash md5Hash = new Md5Hash(mallUser.getMallPassword(), "mall", 1024);
-        mallUser.setMallPassword(md5Hash.toString());
+        Md5Hash md5Hash = new Md5Hash(user.getUserPassword(), user.getUserName(), 1024);
+        user.setUserPassword(md5Hash.toString());
         // 用于实现基于用户名/密码主体（Subject）身份认证。
-        UsernamePasswordToken token = new UsernamePasswordToken(mallUser.getMallUsername(), mallUser.getMallPassword());
-        token.setRememberMe(mallUser.getRememberMe());
+        UsernamePasswordToken token = new UsernamePasswordToken(user.getUserName(), user.getUserPassword());
+        token.setRememberMe(user.getRememberMe());
         // 调用登录方法
         // 执行认证登录请求传递令牌到Realm中进行认证
-
         try {
             subject.login(token);
         } catch (AuthenticationException e) {
             throw new AuthenticationException("用户名或密码错误");
         }
-
         List<String> collect = mallRoleService.
                 queryAllAdminRole().
                 stream().
                 map(MallRole::getMallRoleName).
                 collect(Collectors.toList());
+        System.out.println("collect = " + collect);
         // isAuthenticated 判断是否经过认证登录
         if (subject.isAuthenticated()) {
             for (boolean b : subject.hasRoles(collect)) {
@@ -90,7 +89,7 @@ public class LoginController {
             }
             code = "200";
             map.put("code", code);
-            map.put("msg", "登录成功");
+            map.put("msg", "权限不够,正在跳转用户登录");
             return map;
         } else {
             // 未认证
@@ -124,9 +123,15 @@ public class LoginController {
     public String index() {
         return "backstage/index";
     }
+
     @GetMapping("/backstageIndex/user")
-    public String user(Model model) {
-        return "frontDesk/index_fe";
+    public void user(HttpServletResponse response) throws IOException {
+        // model.addAttribute("username", user.getUserName());
+        // model.addAttribute("password", user.getUserPassword());
+        // String url = "http://localhost:8080/tmall/login"
+        response.sendRedirect("http://localhost:8080/tmall/login");
     }
+
+
 }
 

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
-      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+>
 <head>
     <meta charset="UTF-8">
     <meta name="Generator" content="EditPlus®">
@@ -48,15 +48,15 @@
                             <form id="formlogin" method="post">
                                 <div class="item item-fore1 item-error">
                                     <label for="loginname" class="login-label name-label"></label>
-                                    <input  type="text" name="mallUsername" id="loginname" class="itxt" tabindex="1"
+                                    <input type="text" name="userName" id="loginname" class="itxt" tabindex="1"
                                            autocomplete="off" placeholder="邮箱/用户名/已验证手机"
-                                            value="">
+                                           value="">
                                     <span class="clear-btn" style="display:inline;"></span>
                                 </div>
                                 <!-- 密码输入框fore2 -->
                                 <div id="entry" class="item item-fore2" style="visibility: visible">
                                     <label class="login-label pwd-label" for="nloginpwd"></label>
-                                    <input type="password" id="nloginpwd" name="mallPassword" class="itxt itxt-error"
+                                    <input type="password" id="nloginpwd" name="userPassword" class="itxt itxt-error"
                                            tabindex="2" autocomplete="off" placeholder="密码">
                                     <span class="clear-btn" style="display: inline;"></span>
                                     <span class="capslock" style="display: none;">
@@ -74,7 +74,7 @@
                                 <div class="item item-fore4">
                                     <div class="safe">
                         		<span>
-                        			<input type="checkbox" name="RememberMe"  id="autologin" tabindex="3">
+                        			<input type="checkbox" name="RememberMe" id="autologin" tabindex="3">
                         			<label for>自动登录</label>
                         		</span>
                                         <span class="forget-pw-safe">
@@ -191,8 +191,8 @@
         var user = $("#formlogin").serializeArray();
         var checked = $("#autologin")[0].checked;
         var mallUser = {
-            "mallUsername": user[0].value,
-            "mallPassword": user[1].value,
+            "userName": user[0].value,
+            "userPassword": user[1].value,
             "rememberMe": checked,
         }
 
@@ -200,11 +200,11 @@
         $.ajax({
             type: "post",
             contentType: "application/json; charset=utf-8",
-            url: "loginUser/userLogin",
+            url: "/loginUser/userLogin",
             data: JSON.stringify(mallUser),
             success: (data) => {
                 switch (data.code) {
-                    // admin登陆成功
+                        // admin登陆成功
                     case "200-A" :
                         layer.msg(data.msg,
                                 {
@@ -221,8 +221,15 @@
                                     icon: 1,
                                     time: 1500,
                                 }, () => {
-                                    // console.log("提示结束，我就执行");
-                                    $(location).prop('href', "loginUser/backstageIndex/user")
+                                    // var username = data.username;
+                                    // var password = data.password;
+                                    // $.ajax({
+                                    //     type: "post",
+                                    //     contentType: "application/json; charset=utf-8",
+                                    //     url: "[[@{loginUser/backstageIndex/user}]]",
+                                    //     // data: JSON.stringify({username, password}),
+                                    // });
+                                    window.location.href = "[[@{loginUser/backstageIndex/user}]]"
                                 });
                         break;
                     case "918" :

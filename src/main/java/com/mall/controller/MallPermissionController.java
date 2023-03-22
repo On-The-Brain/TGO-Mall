@@ -2,10 +2,8 @@ package com.mall.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.mall.entity.MallPermission;
-import com.mall.entity.MallUser;
 import com.mall.service.MallPermissionService;
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.crypto.hash.Md5Hash;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -124,23 +122,23 @@ public class MallPermissionController {
         return ResponseEntity.ok(flag);
     }
 
-    /**
-     * 删除权限
-     *
-     * @param permissionId 权限id
-     * @param password     密码
-     * @return {@link ResponseEntity}<{@link Object}>
-     */
-    @DeleteMapping("permissionManagement/{permissionId}/{password}")
-    public ResponseEntity<Object> deletePermission(@PathVariable Integer permissionId, @PathVariable("password") String password) {
-        Md5Hash md5Hash = new Md5Hash(password, "mall", 1024);
-        MallUser mallUser = (MallUser) SecurityUtils.getSubject().getPrincipal();
-        if (mallUser.getMallPassword().equals(md5Hash.toString())) {
-            Integer integer = mallPermissionService.deletePermission(permissionId);
-            return ResponseEntity.ok(integer);
-        } else {
-            return new ResponseEntity<>("密码不正确,拒绝删除", null, HttpStatus.NON_AUTHORITATIVE_INFORMATION);
-        }
-    }
+    // /**
+    //  * 删除权限
+    //  *
+    //  * @param permissionId 权限id
+    //  * @param password     密码
+    //  * @return {@link ResponseEntity}<{@link Object}>
+    //  */
+    // @DeleteMapping("permissionManagement/{permissionId}/{password}")
+    // public ResponseEntity<Object> deletePermission(@PathVariable Integer permissionId, @PathVariable("password") String password) {
+    //     Md5Hash md5Hash = new Md5Hash(password, "mall", 1024);
+    //     MallUser mallUser = (MallUser) SecurityUtils.getSubject().getPrincipal();
+    //     if (mallUser.getMallPassword().equals(md5Hash.toString())) {
+    //         Integer integer = mallPermissionService.deletePermission(permissionId);
+    //         return ResponseEntity.ok(integer);
+    //     } else {
+    //         return new ResponseEntity<>("密码不正确,拒绝删除", null, HttpStatus.NON_AUTHORITATIVE_INFORMATION);
+    //     }
+    // }
 }
 

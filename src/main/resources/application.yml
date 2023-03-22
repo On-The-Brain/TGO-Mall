@@ -1,6 +1,6 @@
 server:
   # 应用服务 WEB 访问端口
-  port: 8080
+  port: 8082
 spring:
   mvc:
     pathmatch:
@@ -12,7 +12,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
     password: 123456
-    url: jdbc:mysql://localhost:3306/shoppingmall
+    url: jdbc:mysql://localhost:3306/tmalldemodb
   thymeleaf:
     cache: false
     prefix: classpath:/templates/
@@ -22,7 +22,7 @@ spring:
 mybatis-plus:
   global-config:
     db-config:
-      table-prefix: mall_        #设置表名通用前缀
+      table-prefix:         #设置表名通用前缀
       id-type: auto                #设置主键id字段的生成策略为参照数据库设定的策略，当前数据库设置id生成策略为自增
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl

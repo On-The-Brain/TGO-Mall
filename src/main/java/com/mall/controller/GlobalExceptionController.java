@@ -19,12 +19,6 @@ import java.util.Map;
 @RestControllerAdvice
 public class GlobalExceptionController {
 
-    // @ExceptionHandler({ArithmeticException.class})
-    // public String  LoginException(Exception e){
-    //
-    //     return ;
-    // }
-
     /**
      * 用于处理当前控制器类中的LoginException
      *

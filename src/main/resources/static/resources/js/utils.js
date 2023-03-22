@@ -34,3 +34,64 @@ function formatDate(date, fmt) {
 function padLeftZero(str) {
     return ("00" + str).substr(str.length);
 }
+
+var p1 = ChineseDistricts[86]['A-G'];
+var p2 = ChineseDistricts[86]['H-K'];
+var p3 = ChineseDistricts[86]['L-S'];
+var p4 = ChineseDistricts[86]['T-Z'];
+
+function getAddressByProvinceCode(provinceCode, p) {
+    var province = '';
+    for (var i = 0; i < p.length; i++) {
+        if (provinceCode == p[i].code) {
+            province = p[i].address;
+            break;
+        }
+    }
+    return province;
+}
+
+function getByDistrict(districtCode) {
+    var province = '';
+    var city = '';
+    var district = '';
+    try {
+        var provinceCode = parseInt(districtCode / 10000) * 10000;
+        var cityCode = parseInt(districtCode / 100) * 100;
+        city = ChineseDistricts[provinceCode][cityCode];
+        district = ChineseDistricts[cityCode][districtCode];
+        var isFound = 0;
+        if (isFound == 0) {
+            province = getAddressByProvinceCode(provinceCode, p1);
+            if (province != '') {
+                isFound = 1;
+            }
+        }
+        if (isFound == 0) {
+            province = getAddressByProvinceCode(provinceCode, p2);
+            if (province != '') {
+                isFound = 1;
+            }
+        }
+        if (isFound == 0) {
+            province = getAddressByProvinceCode(provinceCode, p3);
+            if (province != '') {
+                isFound = 1;
+            }
+        }
+        if (isFound == 0) {
+            province = getAddressByProvinceCode(provinceCode, p4);
+            if (province != '') {
+                isFound = 1;
+            }
+        }
+    } catch (err) {
+        console.log(err);
+    }
+
+    var arr = new Array(3);
+    arr[0] = province;
+    arr[1] = city;
+    arr[2] = district;
+    return arr;
+}

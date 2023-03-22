@@ -15,7 +15,5 @@
                  join mall_role_permission mrp on mall_permission.mall_permission_id = mrp.mall_permission_id
         where mall_role_id = #{mallRoleId}
     </select>
-
-
 </mapper>
 

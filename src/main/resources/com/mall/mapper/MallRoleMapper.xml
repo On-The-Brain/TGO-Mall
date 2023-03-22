@@ -15,21 +15,22 @@
     <select id="queryRolesByUserId" resultMap="MallRoleMap">
         select *
         from mall_role
-                 join mall_user_role mur on mall_role.mall_role_id = mur.mall_role_id
+        join mall_user_role mur on mall_role.mall_role_id = mur.mall_role_id
         where mall_user_id = #{mallUserId}
     </select>
     <!--通过用户id查询角色-->
     <select id="queryAllRolesByUserId" resultMap="MallRoleMap">
         select *
         from mall_role
-                 join mall_user_role mur on mall_role.mall_role_id = mur.mall_role_id
+        join mall_user_role mur on mall_role.mall_role_id = mur.mall_role_id
         where mall_user_id = #{mallUserId}
     </select>
     <!-- 查询所有管理员角色 -->
     <select id="queryAllAdminRole" resultMap="MallRoleMap">
         select mall_role_id, mall_role_name, mall_role_description
         from mall_role
-        where mall_role_name = '%' + 'Admin' + '%'
+        where mall_role_name like '%Admin%'
+        <!--  -->
     </select>
     <!-- 查询所有角色 -->
     <select id="queryAllRole" resultMap="MallRoleMap">
@@ -40,9 +41,9 @@
     <select id="getRolesByUserName" resultMap="com.mall.mapper.MallRoleMapper.MallRoleMap">
         select mr.*
         from mall_user_role
-                 join mall_user mu on mall_user_role.mall_user_id = mu.mall_user_id
-                 join mall_role mr on mall_user_role.mall_role_id = mr.mall_role_id
-        where mall_username = #{mallUsername}
+        join user mu on mall_user_role.mall_user_id = mu.user_id
+        join mall_role mr on mall_user_role.mall_role_id = mr.mall_role_id
+        where user_name = #{mallUsername}
     </select>
 
     <insert id="insertRolePermission">

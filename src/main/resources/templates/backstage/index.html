@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
->
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
 
     <meta charset="utf-8">
@@ -20,8 +19,8 @@
     <link href="/resources/css/style.css?v=2.2.0" rel="stylesheet">
 <style>
     body{
-        /*overflow:-Scroll;*/
-        overflow-y:hidden
+        overflow:-Scroll;
+        /*overflow-y:hidden*/
     }
 </style>
 </head>
@@ -34,7 +33,7 @@
                 <li class="nav-header">
 
                     <div class="dropdown profile-element"> <span>
-                            <img alt="image" class="img-circle" src="/resources/img/profile_small.jpg"/>
+<!--                            <img alt="image" class="img-circle" th:src="'/foregroundPicture/item/adminProfilePicture/'+${session.user.userProfilePictureSrc}"/>-->
                              </span>
                         <a data-toggle="dropdown" class="dropdown-toggle" href="index.html#">
                                 <span class="clear"> <span class="block m-t-xs"> <strong
@@ -72,7 +71,7 @@
                         <li><a th:href="@{/permission/start}" target="iframeMenu" >权限管理 <span id="authorityManagement" class="fa arrow"></span></a>
                         </li>
                         <li>
-                            <a th:href="@{/user/admin/start}" target="iframeMenu">管理员列表 <span id="administratorList" class="fa arrow"
+                            <a th:href="@{/user/start}" target="iframeMenu">管理员列表 <span id="administratorList" class="fa arrow"
                                                                    data-path=""></span></a>
                         </li>
                     </ul>
@@ -468,6 +467,9 @@
     </div>
 </div>
 <script>
+
+
+
     // 顶部菜单固定
     $('#fixednavbar').click(function () {
         if ($('#fixednavbar').is(':checked')) {
